@@ -93,14 +93,18 @@
 	
 	colorWheel.dispatch.on('updateEnd.gradient', function () {
 		var gradientStops = colorWheel.getColorsAsRGB();
-		var first = gradientStops[0]
-		console.log(gradientStops[0]);
 		
-		var rgbstr = '#' + gradientStops[0].toString(16);
-		console.log('RGB: ' + rgbstr);
-		connection.send(rgbstr);
-
+		var rgb_values = $.map(gradientStops,function(value){
+			var result = ((value.split('(')[1]).split(')')[0]).split(',');
+			console.log(result);
+			return '|' + result;
+		});
+		console.log(rgb_values);
 		
+		var rgb_str = '#' + rgb_values.toString(16);
+		console.log('RGB: ' + rgb_str);
+		connection.send(rgb_str);
+	
 	});
   
   </script>

@@ -422,7 +422,7 @@
   };
 
   ColorWheel.prototype.getColorsAsRGB = function () {
-    return this._getColorsAs('toRgb');
+    return this._getColorsAs('toRgbString');
   };
 
   ColorWheel.prototype.getColorsAsHSL = function () {

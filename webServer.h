@@ -16,19 +16,17 @@ ESP8266WebServer server(80);
 WebSocketsServer webSocket(81);                                 // create a websocket server on port 81
 ESP8266HTTPUpdateServer httpUpdater;
 
-const int led = 2; //delete me
+
 bool rainbow = false;             // The rainbow effect is turned off on startup //delete me
 
 using namespace std::placeholders;
 class WebServer {
     public:   
       WebServer()
-      {
+      {        
         startSPIFFS();                                          // Start the SPIFFS and list all contents                        
         startWebSocket();                                       // Start a WebSocket server
         startServer();                                          // Start a HTTP server with a file read handler and an upload handler
-
-        pinMode(led, OUTPUT); //delete me
          
         //Initialize http updater server
         httpUpdater.setup(&server, "/update");
@@ -167,16 +165,21 @@ class WebServer {
             break;
           case WStype_TEXT:                     // if new text data is received
             Serial.printf("[%u] get Text: %s\n", num, payload);
+
+            char delimiter[] = "|";
+            char *rgb = strtok((char *)payload, delimiter);
+            while(rgb != NULL) {
+              printf("RGB Value: %s\n", rgb);
+              //this->controller.insertRGB(std::make_tuple (rgb));
+              rgb = strtok(NULL, delimiter);
+            }
+            
             if (payload[0] == '#') {            // we get RGB data
-              uint32_t rgb = (uint32_t) strtol((const char *) &payload[1], NULL, 16);   // decode rgb data
-              int r = ((rgb >> 20) & 0x3FF);                     // 10 bits per color, so R: bits 20-29
-              int g = ((rgb >> 10) & 0x3FF);                     // G: bits 10-19
-              int b =          rgb & 0x3FF;                      // B: bits  0-9
-              Serial.printf("[%i] r: \n", r);
+              /*Serial.printf("[%i] r: \n", r);
               Serial.printf("[%i] g: \n", g);
               Serial.printf("[%i] b: \n", b);
               
-              analogWrite(led,   r);                         // write it to the LED output pins
+              analogWrite(led,   r);*/                         // write it to the LED output pins
             } else if (payload[0] == 'R') {                      // the browser sends an R when the rainbow effect is enabled
               rainbow = true;
             } else if (payload[0] == 'N') {                      // the browser sends an N when the rainbow effect is disabled
@@ -186,5 +189,4 @@ class WebServer {
         }
       }
     private:
-      
 };
