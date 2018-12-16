@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
@@ -73,44 +73,36 @@
     var colorWheel = new ColorWheel();
     colorWheel.bindData(5);
 	
+	//WebSocket setup connection
+	var host = window.location.hostname;
+	var ws_url = 'ws://' + host + ':81';
+	var connection = new WebSocket(ws_url, ['arduino']);
+	
+	connection.onopen = function () {
+	  connection.send('Connect ' + new Date());
+	};
+	connection.onerror = function (error) {
+	  console.log('WebSocket Error ', error);
+	};
+	connection.onmessage = function (e) {
+	  console.log('Server: ', e.data);
+	};
+	connection.onclose = function () {
+	  console.log('WebSocket connection closed');
+	};
+	
 	colorWheel.dispatch.on('updateEnd.gradient', function () {
 		var gradientStops = colorWheel.getColorsAsRGB();
-		console.log("WWWWWWWWWWWWWWWWWWW");
+		var first = gradientStops[0]
+		console.log(gradientStops[0]);
 		
-		post('/', {name: 'LED'});
+		var rgbstr = '#' + gradientStops[0].toString(16);
+		console.log('RGB: ' + rgbstr);
+		connection.send(rgbstr);
+
 		
 	});
   
-	 /**
-	 * sends a request to the specified url from a form. this will change the window location.
-	 * @param {string} path the path to send the post request to
-	 * @param {object} params the paramiters to add to the url
-	 * @param {string} [method=post] the method to use on the form
-	 */
-
-	function post(path, params, method) {
-		method = method || "post"; // Set method to post by default if not specified.
-
-		// The rest of this code assumes you are not using a library.
-		// It can be made less wordy if you use one.
-		var form = document.createElement("form");
-		form.setAttribute("method", method);
-		form.setAttribute("action", path);
-
-		for(var key in params) {
-			if(params.hasOwnProperty(key)) {
-				var hiddenField = document.createElement("input");
-				hiddenField.setAttribute("type", "hidden");
-				hiddenField.setAttribute("name", key);
-				hiddenField.setAttribute("value", params[key]);
-
-				form.appendChild(hiddenField);
-			}
-		}
-
-		document.body.appendChild(form);
-		form.submit();
-	}
   </script>
   </body>
 </html>

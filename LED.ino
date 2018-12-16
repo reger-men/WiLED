@@ -39,8 +39,10 @@ void setup() {
 
 // the loop function runs over and over again forever
 void loop() {
-  ArduinoOTA.handle();  
-  server.handleClient();
+  webSocket.loop();                           // constantly check for websocket events
+  server.handleClient();                      // run the server
+  ArduinoOTA.handle();                        // listen for OTA events
+
   
   
   /*for(int i=0; i<=10; i++){
