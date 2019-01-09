@@ -1,4 +1,5 @@
 #pragma once
+#include "definitions.h"
 #include <Arduino.h>
 #include <tuple>
 #include <queue>
@@ -8,9 +9,9 @@ class Model {
     public:
         
         Model();  // default constructor
-        void setRGB(std::tuple <int, int, int> RGB);
-        void pushInQueue(std::tuple <int, int, int> RGB);
-        std::tuple <int, int, int> pullFromQueue();
+        void setRGB(RGB rgb);
+        void pushInQueue(RGB rgb);
+        RGB pullFromQueue();
         
         void shiftQueue();
         void applyQueue();
@@ -23,7 +24,6 @@ class Model {
       static const int kRedPin   = 12;
       static const int kGreenPin = 13;
       static const int kBluePin  = 14;
-      std::tuple <int, int, int> RGB {0,0,0}; 
-      std::queue<std::tuple <int, int, int>> RGBQueue;
+      std::queue<RGB> RGBQueue;
       
 };

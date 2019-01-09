@@ -97,7 +97,7 @@
 		var rgb_values = $.map(gradientStops,function(value){
 			var result = ((value.split('(')[1]).split(')')[0]).split(',');
 			console.log(result);
-			return '|' + result;
+			return result;
 		});
 		console.log(rgb_values);
 		

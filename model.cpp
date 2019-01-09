@@ -12,11 +12,11 @@ Model::Model()
   this->Off();                             
 }
  
-void Model::setRGB(std::tuple <int, int, int> RGB) 
+void Model::setRGB(RGB rgb) 
 { 
-  digitalWrite(kRedPin,   (std::get<0>(RGB)/100));                 
-  digitalWrite(kGreenPin, (std::get<1>(RGB)/100));                            
-  digitalWrite(kBluePin,  (std::get<2>(RGB)/100));
+  digitalWrite(kRedPin,   ((rgb.r)/100));                 
+  digitalWrite(kGreenPin, ((rgb.g)/100));                            
+  digitalWrite(kBluePin,  ((rgb.b)/100));
 }
 
 void Model::On() 
@@ -33,26 +33,26 @@ void Model::Off()
   digitalWrite(kBluePin,  0);
 }
 
-void Model::pushInQueue(std::tuple <int, int, int> RGB)
+void Model::pushInQueue(RGB rgb)
 {
-  RGBQueue.push(RGB);
+  RGBQueue.push(rgb);
 }
 
-std::tuple <int, int, int> Model::pullFromQueue()
+RGB Model::pullFromQueue()
 {
   return RGBQueue.front(); //Get next element
 }
 
 void Model::shiftQueue()
 {
-  std::tuple <int, int, int> front = this->pullFromQueue();
+  RGB front = this->pullFromQueue();
   RGBQueue.pop(); //Remove next element
   this->pushInQueue(front);
 }
 
 void Model::applyQueue()
 {
-  std::tuple <int, int, int> tmp = this->pullFromQueue();
+  RGB tmp = this->pullFromQueue();
   this->setRGB(tmp);
   this->shiftQueue();
 }

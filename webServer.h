@@ -6,6 +6,8 @@
 */
  
 #pragma once
+#include "controller.h"
+
 #include <ESP8266WebServer.h>
 #include <ESP8266HTTPUpdateServer.h>
 #include <WebSocketsServer.h>
@@ -22,8 +24,9 @@ bool rainbow = false;             // The rainbow effect is turned off on startup
 using namespace std::placeholders;
 class WebServer {
     public:   
-      WebServer()
-      {        
+      WebServer(Controller controller)
+      { 
+        this->controller = controller;       
         startSPIFFS();                                          // Start the SPIFFS and list all contents                        
         startWebSocket();                                       // Start a WebSocket server
         startServer();                                          // Start a HTTP server with a file read handler and an upload handler
@@ -140,7 +143,7 @@ class WebServer {
             server.send(404, "text/plain", "404: Not Found");   // otherwise, respond with a 404 (Not Found) error
         });
       
-        server.begin();                             // start the HTTP server
+        server.begin();                                         // start the HTTP server
         Serial.println("HTTP server started.");
       }
 
@@ -149,9 +152,7 @@ class WebServer {
         webSocket.onEvent(std::bind(&WebServer::webSocketEvent, this, _1, _2, _3, _4));          // if there's an incomming websocket message, go to function 'webSocketEvent'
         Serial.println("WebSocket server started.");
       }
-
-
-      
+    
       void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t lenght) { // When a WebSocket message is received
          switch (type) {
           case WStype_DISCONNECTED:             // if the websocket is disconnected
@@ -166,20 +167,20 @@ class WebServer {
           case WStype_TEXT:                     // if new text data is received
             Serial.printf("[%u] get Text: %s\n", num, payload);
 
-            char delimiter[] = "|";
-            char *rgb = strtok((char *)payload, delimiter);
-            while(rgb != NULL) {
-              printf("RGB Value: %s\n", rgb);
-              //this->controller.insertRGB(std::make_tuple (rgb));
-              rgb = strtok(NULL, delimiter);
-            }
-            
-            if (payload[0] == '#') {            // we get RGB data
-              /*Serial.printf("[%i] r: \n", r);
-              Serial.printf("[%i] g: \n", g);
-              Serial.printf("[%i] b: \n", b);
+            if (payload[0] == '#') {            // Get RGB data
+              payload++;
+              char delimiter[] = ",";
+              char *rgb_str = strtok((char *)payload, delimiter);
+              int rgbs[15]; int i = 0;
               
-              analogWrite(led,   r);*/                         // write it to the LED output pins
+              while(rgb_str != NULL) {
+                rgbs[i] = atoi(rgb_str);
+                i++;
+                printf("RGB Value: %s\n", rgb_str);
+                rgb_str = strtok(NULL, delimiter);
+              }                      
+              this->controller.insertRGBArray(rgbs, i);
+              
             } else if (payload[0] == 'R') {                      // the browser sends an R when the rainbow effect is enabled
               rainbow = true;
             } else if (payload[0] == 'N') {                      // the browser sends an N when the rainbow effect is disabled
@@ -189,4 +190,5 @@ class WebServer {
         }
       }
     private:
+      Controller controller;
 };
