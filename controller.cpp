@@ -1,6 +1,11 @@
 #include "controller.h"
 
-Controller::Controller(Model &m) : model(m) 
+// default constructor
+Controller::Controller()
+{
+}
+
+Controller::Controller(Model m) : model(m) 
 { 
   printf("Model name2: %s\n", this->model._name.c_str());
   printf("Model adress2: %p\n", &this->model);
@@ -20,16 +25,14 @@ void Controller::insertRGB(RGB rgb)
 
 void Controller::insertRGBArray(uint8_t rgbs[], uint8_t len)
 {
-  /*for (int i = 0; i < len/3; i++){
+  for (int i = 0; i < len/3; i++){
     pin_color.r = rgbs[(i*3) + 0];
     pin_color.g = rgbs[(i*3) + 1];
     pin_color.b = rgbs[(i*3) + 2];
 
     printf("r: %d , g: %d, b: %d\n", rgbs[(i*3) + 0], rgbs[(i*3) + 1], rgbs[(i*3) + 2]);
     this->insertRGB(pin_color);
-  }*/
-  RGB pin_color_ = { 125, 25, 48 };
-  this->insertRGB(pin_color_);
+  }
 }
 
 void Controller::runQueue()
@@ -44,5 +47,5 @@ void Controller::On()
 
 void Controller::Off() 
 { 
-  //this->model.Off();
+  this->model.Off();
 }

@@ -7,8 +7,8 @@
 // Only the Model has the access to the LED
 class Model {
     public:
-        
-        Model(String name);  // default constructor
+        Model();  // default constructor
+        Model(String name);  
         void setRGB(RGB rgb);
         void pushInQueue(RGB rgb);
         RGB pullFromQueue();

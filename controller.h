@@ -6,7 +6,8 @@
 // Controller combines Model and View
 class Controller {
     public:
-        Controller(Model &model);
+        Controller(); // default constructor
+        Controller(Model model);
         void setRGB(RGB rgb);
         void insertRGB(RGB rgb);
         void insertRGBArray(uint8_t rgbs[], uint8_t len);
@@ -15,7 +16,7 @@ class Controller {
 
         void On();
         void Off();  
-        Model &model;   //delete me   
+        Model model;   //delete me   
     private:
         //Model &model;
         RGB pin_color = { 0, 0, 0 };

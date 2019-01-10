@@ -1,15 +1,19 @@
 #include "model.h"
 
 // default constructor
+Model::Model()
+{
+  
+}
 Model::Model(String Name): _name(Name)
 {
-  Serial.print("Initialize the pins as an output");
+  printf("Initialize the pins as an output");
   pinMode(kRedPin,    OUTPUT);     
   pinMode(kGreenPin,  OUTPUT);
   pinMode(kBluePin,   OUTPUT);
 
   // Initialize the pins values  
-  this->Off();                             
+  this->Off();                          
 }
  
 void Model::setRGB(RGB rgb) 
