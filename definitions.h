@@ -10,5 +10,4 @@ struct rgb
   uint8_t b;
 };
 
-typedef struct rgb RGB;
-//RGB pin_color = { 0, 0, 0 };   
+typedef struct rgb RGB;  

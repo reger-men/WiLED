@@ -12,11 +12,11 @@
 #include <ESP8266HTTPUpdateServer.h>
 #include <WebSocketsServer.h>
 #include <FS.h>                                                 //Include the SPIFFS library
-File fsUploadFile;                                              // a File object to temporarily store the received file
+//File fsUploadFile;                                              // a File object to temporarily store the received file
 
-ESP8266WebServer server(80);
-WebSocketsServer webSocket(81);                                 // create a websocket server on port 81
-ESP8266HTTPUpdateServer httpUpdater;
+//ESP8266WebServer server(80);
+//WebSocketsServer webSocket(81);                                 // create a websocket server on port 81
+//ESP8266HTTPUpdateServer httpUpdater;
 
 
 bool rainbow = false;             // The rainbow effect is turned off on startup //delete me
@@ -24,9 +24,14 @@ bool rainbow = false;             // The rainbow effect is turned off on startup
 using namespace std::placeholders;
 class WebServer {
     public:   
-      WebServer(Controller controller)
+      WebServer(Controller &c) : controller(c)
       { 
-        this->controller = controller;       
+        //Init ESP8266 Web Server 
+        ESP8266WebServer server(80);
+        
+        printf("Controller adress2: %p\n", &this->controller);
+        printf("Controller model name1: %s\n", this->controller.model._name.c_str());    
+        
         startSPIFFS();                                          // Start the SPIFFS and list all contents                        
         startWebSocket();                                       // Start a WebSocket server
         startServer();                                          // Start a HTTP server with a file read handler and an upload handler
@@ -171,14 +176,15 @@ class WebServer {
               payload++;
               char delimiter[] = ",";
               char *rgb_str = strtok((char *)payload, delimiter);
-              int rgbs[15]; int i = 0;
+              uint8_t rgbs[15]; uint8_t i = 0;
               
               while(rgb_str != NULL) {
                 rgbs[i] = atoi(rgb_str);
                 i++;
                 printf("RGB Value: %s\n", rgb_str);
                 rgb_str = strtok(NULL, delimiter);
-              }                      
+              }
+              printf("Controller model name2: %s\n", this->controller.model._name.c_str());                        
               this->controller.insertRGBArray(rgbs, i);
               
             } else if (payload[0] == 'R') {                      // the browser sends an R when the rainbow effect is enabled
@@ -189,6 +195,14 @@ class WebServer {
             break;
         }
       }
+
+      
     private:
-      Controller controller;
+      Controller &controller;
+      
+    public:  
+      File fsUploadFile;                                              // a File object to temporarily store the received file
+      ESP8266WebServer server;
+      WebSocketsServer webSocket = WebSocketsServer(81);                                 // create a websocket server on port 81
+      ESP8266HTTPUpdateServer httpUpdater;
 };

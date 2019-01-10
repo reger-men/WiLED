@@ -8,7 +8,7 @@
 class Model {
     public:
         
-        Model();  // default constructor
+        Model(String name);  // default constructor
         void setRGB(RGB rgb);
         void pushInQueue(RGB rgb);
         RGB pullFromQueue();
@@ -18,7 +18,7 @@ class Model {
         
         void On();
         void Off();
-
+        String _name;
     private:
       //LED Pins
       static const int kRedPin   = 12;

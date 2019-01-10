@@ -1,7 +1,7 @@
 #include "model.h"
 
 // default constructor
-Model::Model() 
+Model::Model(String Name): _name(Name)
 {
   Serial.print("Initialize the pins as an output");
   pinMode(kRedPin,    OUTPUT);     
@@ -36,6 +36,7 @@ void Model::Off()
 void Model::pushInQueue(RGB rgb)
 {
   RGBQueue.push(rgb);
+  printf("Size: %i\n", RGBQueue.size());
 }
 
 RGB Model::pullFromQueue()
