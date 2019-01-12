@@ -4,7 +4,7 @@
 #include <tuple>
 #include <queue>
 
-// Only the Model has the access to the LED
+// Only the Model has the access to the LED strip
 class Model {
     public:
         Model();  // default constructor

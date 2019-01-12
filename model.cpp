@@ -3,7 +3,7 @@
 // default constructor
 Model::Model()
 {
-  
+  printf("Init Model with default constructor.\n");
 }
 Model::Model(String Name): _name(Name)
 {

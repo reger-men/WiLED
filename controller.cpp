@@ -3,9 +3,10 @@
 // default constructor
 Controller::Controller()
 {
+  printf("Init Controller with default constructor.\n");
 }
 
-Controller::Controller(Model m) : model(m) 
+Controller::Controller(const Model &m) : model(m) 
 { 
   printf("Model name2: %s\n", this->model._name.c_str());
   printf("Model adress2: %p\n", &this->model);
@@ -37,15 +38,15 @@ void Controller::insertRGBArray(uint8_t rgbs[], uint8_t len)
 
 void Controller::runQueue()
 {
-  this->model.applyQueue();
+  //this->model.applyQueue();
 }
 
 void Controller::On() 
 { 
-  this->model.On();
+  //this->model.On();
 }
 
 void Controller::Off() 
 { 
-  this->model.Off();
+  //this->model.Off();
 }

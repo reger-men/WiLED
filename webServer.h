@@ -22,14 +22,17 @@
 bool rainbow = false;             // The rainbow effect is turned off on startup //delete me
 
 using namespace std::placeholders;
-class WebServer {
-    public:   
-      WebServer(Controller &c) : controller(c)
+class WebServer{
+    public: 
+      WebServer()
+      {
+          printf("Init WebServer with default constructor.");
+      }
+      WebServer(Controller c) : controller(c), server(80)
       { 
-        //Init ESP8266 Web Server 
-        ESP8266WebServer server(80);
-        
-        printf("Controller adress2: %p\n", &this->controller);
+        printf("server adress2: %p\n", &server);
+
+        printf("Controller adress3: %p\n", &this->controller);
         printf("Controller model name1: %s\n", this->controller.model._name.c_str());    
         
         startSPIFFS();                                          // Start the SPIFFS and list all contents                        
@@ -38,11 +41,11 @@ class WebServer {
          
         //Initialize http updater server
         httpUpdater.setup(&server, "/update");
-    
-        server.begin();                                         // Actually start the server
-        Serial.println("HTTP server started");
       }
-
+      void listener()
+      {
+        server.handleClient();
+      }
       String formatBytes(size_t bytes) { // convert sizes in bytes to KB and MB
         if (bytes < 1024) {
           return String(bytes) + "B";
@@ -198,8 +201,8 @@ class WebServer {
 
       
     private:
-      Controller &controller;
-      
+      Controller controller;
+  
     public:  
       File fsUploadFile;                                              // a File object to temporarily store the received file
       ESP8266WebServer server;

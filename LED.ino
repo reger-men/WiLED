@@ -1,15 +1,19 @@
 /*
   ESP8266 LED
 */
-#include "controller.h"
 #include "uploadOTA.h"
+#include "controller.h"
 #include "webServer.h"
 
 
 //////////////////////////////////////////////////////////XXX/////////////////////////////////////////////////////////////////////////
-Model model("MyName1");
+/*Model model("MyName1");
 Controller controller(model); 
-WebServer wserver(controller);
+WebServer *wserver;*/
+
+Model model;
+Controller controller;
+WebServer *wserver;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void setup() {
@@ -18,14 +22,20 @@ void setup() {
   Serial.println("Booting");
   UploadOTA uploadOTA;
 
-  //model = Model("MyName1");
+  printf("Model name1: %s\n", model._name.c_str());
+  printf("Model adress1: %p\n", &model);
+  model = Model("MyName1");
   printf("Model name1: %s\n", model._name.c_str());
   printf("Model adress1: %p\n", &model);
 
-  //controller = Controller(model); 
+  printf("Controller adress1: %p\n", &controller);
+  controller = Controller(model); 
   printf("Controller adress1: %p\n", &controller);
 
-  //wserver(controller);
+  printf("WebServer adress1: %p\n", &wserver);
+  printf("server adress1: %p\n", &wserver->server);
+  wserver = new WebServer(controller);
+  printf("WebServer adress1: %p\n", &wserver->server);
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   
@@ -40,8 +50,8 @@ void setup() {
 
 // the loop function runs over and over again forever
 void loop() {
-  wserver.server.handleClient();                      // run the server
-  wserver.webSocket.loop();                           // constantly check for websocket events
+  wserver->listener(); // run the server  
+  wserver->webSocket.loop();                           // constantly check for websocket events
   ArduinoOTA.handle();                        // listen for OTA events
   
   /*for(int i=0; i<=10; i++){

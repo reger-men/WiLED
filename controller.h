@@ -7,7 +7,7 @@
 class Controller {
     public:
         Controller(); // default constructor
-        Controller(Model model);
+        Controller(const Model &model);
         void setRGB(RGB rgb);
         void insertRGB(RGB rgb);
         void insertRGBArray(uint8_t rgbs[], uint8_t len);
