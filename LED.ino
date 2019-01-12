@@ -18,8 +18,7 @@ void setup() {
   Serial.println("Booting");
   UploadOTA uploadOTA;
 
-  
-  model = Model("MyName1");
+  model = Model();
   controller = Controller(model); 
   wserver = new WebServer(controller);
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

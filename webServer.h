@@ -182,10 +182,7 @@ class WebServer{
                 printf("RGB Value: %s\n", rgb_str);
                 rgb_str = strtok(NULL, delimiter);
               }
-              printf("Controller model name2: %s\n", this->controller.model._name.c_str());                        
-              //this->controller.insertRGBArray(rgbs, i);
-              RGB pin_color = { 125, 25, 48 };
-              this->controller.insertRGB(pin_color);
+              this->controller.insertRGBArray(rgbs, i);
             } else if (payload[0] == 'R') {                      
               
             } else if (payload[0] == 'N') {                      

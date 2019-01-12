@@ -8,8 +8,6 @@ Controller::Controller()
 
 Controller::Controller(const Model &m) : model(m) 
 { 
-  printf("Model name2: %s\n", this->model._name.c_str());
-  printf("Model adress2: %p\n", &this->model);
 }
         
 void Controller::setRGB(RGB rgb) 
@@ -19,8 +17,6 @@ void Controller::setRGB(RGB rgb)
 
 void Controller::insertRGB(RGB rgb)
 {
-  printf("Model name3: %s\n", this->model._name.c_str());
-  printf("Model adress3: %p\n", &this->model);
   this->model.pushInQueue(rgb);
 }
 
@@ -38,15 +34,15 @@ void Controller::insertRGBArray(uint8_t rgbs[], uint8_t len)
 
 void Controller::runQueue()
 {
-  //this->model.applyQueue();
+  this->model.applyQueue();
 }
 
 void Controller::On() 
 { 
-  //this->model.On();
+  this->model.On();
 }
 
 void Controller::Off() 
 { 
-  //this->model.Off();
+  this->model.Off();
 }

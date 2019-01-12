@@ -3,11 +3,7 @@
 // default constructor
 Model::Model()
 {
-  printf("Init Model with default constructor.\n");
-}
-Model::Model(String Name): _name(Name)
-{
-  printf("Initialize the pins as an output");
+  printf("Initialize the pins as an output...\n");
   pinMode(kRedPin,    OUTPUT);     
   pinMode(kGreenPin,  OUTPUT);
   pinMode(kBluePin,   OUTPUT);
