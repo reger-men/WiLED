@@ -6,8 +6,6 @@
 */
  
 #pragma once
-#include "controller.h"
-
 #include <ESP8266WebServer.h>
 #include <ESP8266HTTPUpdateServer.h>
 #include <WebSocketsServer.h>
@@ -183,6 +181,7 @@ class WebServer{
                 rgb_str = strtok(NULL, delimiter);
               }
               this->controller.insertRGBArray(rgbs, i);
+              s_mode = SET_COLOR;
             } else if (payload[0] == 'R') {                      
               
             } else if (payload[0] == 'N') {                      

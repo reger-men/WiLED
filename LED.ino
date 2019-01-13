@@ -1,14 +1,16 @@
 /*
   ESP8266 LED
 */
-#include "uploadOTA.h"
+#include "definitions.h"
+#include "model.h"
 #include "controller.h"
 #include "webServer.h"
+#include "uploadOTA.h"
 
 
 //////////////////////////////////////////////////////////Globale Section/////////////////////////////////////////////////////////////////////////
 Model model;
-Controller controller;
+Controller controller; 
 WebServer *wserver;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -30,13 +32,17 @@ void setup() {
   Serial.println("insert RGB values...");
   RGB pin_color = { 125, 25, 48 };
   controller.insertRGB(pin_color);
+  printf(".............\n");
 }
 
 
-// the loop function runs over and over again forever
+// The loop function runs over and over again forever
 void loop() {
   wserver->serverListener();                                // Start the listener  
   wserver->webSocketListener();                             // Constantly check for websocket events
   ArduinoOTA.handle();                                      // Listen for OTA events
-  
+
+  if (s_mode == SET_COLOR) {
+    controller.runQueue();
+  }
 }

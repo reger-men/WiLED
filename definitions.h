@@ -1,7 +1,8 @@
 #pragma once
 #include <stdint.h>
 
-static enum { OFF, BLINK_OFF, BLINK_ON, ON } mode;
+enum StateMode { SET_COLOR, OFF, ON, BLINK };
+StateMode s_mode = OFF;
 
 struct rgb             
 {
