@@ -73,111 +73,47 @@ class Model {
         
         void applyQueue(SwitchMode sw_mode = FADE)
         {
-          
-          
-
           unsigned long currentMillis = millis(); 
-         // How much time has passed, accounting for rollover with subtraction!
-         if ((unsigned long)(currentMillis - previousMillis) >= 2400) {
-            // It's time to do something!
-            printf("transitionTimer: %i\n", currentMillis);
-       
-            // Use the snapshot to set track time until next event
-            previousMillis = currentMillis;
-         }
+          unsigned long period = currentMillis - previousMillis; 
    
-          /*if ((transitionTimer >= this->delay_) and (transitionTimer < this->delay_ + (this->switchColorDelay*2))){ // Transition period
+          if ((period >= this->delay_) and (period < this->delay_ + (this->switchColorDelay*2))){ // Transition period
             tr_phase = TRANSITION;
-            printf("transitionTimer1: %i\n", transitionTimer);
           }
-          if(transitionTimer > this->delay_ + (this->switchColorDelay*2)){ //End transition
-            transitionTimer = this->switchColorDelay; //Rest timer
+          if(period > this->delay_ + (this->switchColorDelay*2)){ //End transition
+            previousMillis = currentMillis; //Rest timer
             tr_phase = SETCOLOR;
-            printf("transitionTimer2: %i\n", transitionTimer);
           }
           
           
-          RGB tmp;
+          RGB tmp = {0,0,0}; RGB rgb = {0,0,0};
           switch (tr_phase) {
             case SETCOLOR:
-              tmp = this->pullFromQueue();    //Get the first item from the queue
+              tmp = this->pullFromQueue();        //Get the first item from the queue
               this->setRGB(tmp);                  //Set the RGB Value 
               this->shiftQueue();                 //Shift the queue to update the items order
               delay(this->delay_);
               break;
             case TRANSITION:
-              tmp = {0,0,0};
+              rgb = this->pullFromQueue();
+              tmp.r = (prev_color.r > rgb.r)? prev_color.r - ((prev_color.r - rgb.r)/this->transitionSteps) : prev_color.r + ((rgb.r - prev_color.r)/this->transitionSteps);
+              tmp.g = (prev_color.g > rgb.g)? prev_color.g - ((prev_color.g - rgb.g)/this->transitionSteps) : prev_color.g + ((rgb.g - prev_color.g)/this->transitionSteps);
+              tmp.b = (prev_color.b > rgb.b)? prev_color.b - ((prev_color.b - rgb.b)/this->transitionSteps) : prev_color.b + ((rgb.b - prev_color.b)/this->transitionSteps);
+              
+              //printf("prev_color.g Value: %i\n", prev_color.g);
+              //printf("next.g Value: %i\n", rgb.g);
+              //printf("tmp.g Value: %i\n", tmp.g);
+                
               this->setRGB(tmp);                  //Set the RGB Value 
-              delay(this->SWITCH_DELAY);
+              
+              delay(100);
               break;
             default:
-              int z = 98;
+            
               break;
-          }*/
-
-          
-          
-          
-          /*switch (sw_mode) {
-              case FADE:
-                printf("prev_color.g Value: %i\n", prev_color.g);
-                
-                tmp = rgb;
-                //tmp.r = (prev_color.r > rgb.r)? rgb.r + (prev_color.r - rgb.r)/this->transitionSteps : rgb.r - (rgb.r - prev_color.r)/this->transitionSteps;
-                //tmp.g = (prev_color.g > rgb.g)? rgb.g + (prev_color.g - rgb.g)/this->transitionSteps : rgb.g - (rgb.g - prev_color.g)/this->transitionSteps;
-                //tmp.b = (prev_color.b > rgb.b)? rgb.b + (prev_color.b - rgb.b)/this->transitionSteps : rgb.b - (rgb.b - prev_color.b)/this->transitionSteps;
-
-                
-                
-                printf("rgb.g Value: %i\n", rgb.g);
-                printf("tmp.g Value: %i\n", tmp.g);
-                
-                rgb = tmp;
-                break;
-              case FLASH:
-                // statements
-                break;
-              default:
-                if(RGB tmp = this->pullFromQueue(); //Get the first item from the queue
-                this->setRGB(tmp);                  //Set the RGB Value 
-                this->shiftQueue();                 //Shift the queue to update the items order
-                break;
           }
-          delay(this->SWITCH_DELAY);*/
-          /*RGB tmp = this->pullFromQueue(); //Get the first item from the queue
-          this->setRGB(tmp);                  //Set the RGB Value 
-          this->shiftQueue();                 //Shift the queue to update the items order
-          delay(50);*/
         }
 
-        int getStep(int srcRGB, int dstRGB) {
-          int step = dstRGB - srcRGB; 
-          if (step) {                      
-            step = 1020/step;              
-          } 
-          return step;
-        }
-
-        int getNewValue(int stp, int value, int i) {
-          if ((stp) && i % stp == 0) { // If step is non-zero and its time to change a value,
-            if (stp > 0) {              //   increment the value if step is positive...
-              value += (255/80);           
-            } 
-            else if (stp < 0) {         //   ...or decrement it if step is negative
-              value -= (255/80);
-            } 
-          }
-          // Defensive driving: make sure val stays in the range 0-255
-          if (value > 255) {
-            value = 255;
-          } 
-          else if (value < 0) {
-            value = 0;
-          }
-          return value;
-        }
-
-
+      
     private:
       //LED Pins
       static const int kRedPin   = 12;
