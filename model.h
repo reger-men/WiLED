@@ -32,7 +32,6 @@ class Model {
           
           this->prev_color = rgb;
           printf("Set RGB: %i, %i, %i\n", rgb.r, rgb.g, rgb.b);
-          printf("delay_: %i\n", this->delay_);
         }
         
         void On() 
@@ -75,12 +74,12 @@ class Model {
         }
 
         int getNextColor(int prev_queue, int prev, int next){
-          int ret = 0;
+          float ret = 0;
           
           if(prev > next){
-            ret = prev - ((prev_queue-next)/this->transitionSteps);
+            ret = prev - ((float)(prev_queue-next)/(float)this->transitionSteps);
           }else{
-            ret = prev + ((next-prev_queue)/this->transitionSteps);
+            ret = prev + ((float)(next-prev_queue)/(float)this->transitionSteps);
           }
           int min_value = min(prev_queue, next);
           int max_value = max(prev_queue, next);
@@ -88,7 +87,7 @@ class Model {
           ret = (ret < min_value)? min_value: ret;
           ret = (ret > max_value)? max_value: ret;
           
-          return ret;
+          return (int)ret;
         }
 
         void applyQueue(SwitchMode sw_mode = FADE)
@@ -124,14 +123,14 @@ class Model {
               tmp.g = getNextColor(prev_queue_color.g, prev_color.g, rgb.g); 
               tmp.b = getNextColor(prev_queue_color.b, prev_color.b, rgb.b);
               
-              //printf("prev_color.g Value: %i\n", prev_color.g);
+              //printf("prev_queue_color.g Value: %i\n", prev_queue_color.g);
               //printf("next.g Value: %i\n", rgb.g);
-              //printf("tmp.g Value: %i\n", tmp.g);                
+              //printf("prev_color.g Value: %i\n", prev_color.g);                
               this->setRGB(tmp);                  //Set the RGB Value 
               
               this->current_step = min(this->current_step+1, this->transitionSteps);      
 
-              delay(10);
+              delay(5);
               break;
             default:
             

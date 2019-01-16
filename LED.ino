@@ -31,10 +31,12 @@ void setup() {
   
   Serial.println("insert RGB values...");
   controller.setDelay(5000);
-  /*RGB pin_color = { 56, 0, 48 };
+  RGB pin_color = { 56, 0, 48 };
   controller.insertRGB(pin_color);
   pin_color = { 56, 250, 48 };
-  controller.insertRGB(pin_color);*/
+  controller.insertRGB(pin_color);
+  pin_color = { 56, 80, 48 };
+  controller.insertRGB(pin_color);
   printf(".............\n");
 }
 
@@ -44,7 +46,7 @@ void loop() {
   wserver->serverListener();                                // Start the listener  
   wserver->webSocketListener();                             // Constantly check for websocket events
   ArduinoOTA.handle();                                      // Listen for OTA events
-
+  controller.runQueue();
   if (s_mode == SET_COLOR) {
     controller.runQueue();
   }
