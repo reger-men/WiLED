@@ -6,7 +6,8 @@
 #include "controller.h"
 #include "webServer.h"
 #include "uploadOTA.h"
-
+#include <WS2812FX.h>
+WS2812FX strip = WS2812FX(NUMLEDS, PIN, NEO_GRB + NEO_KHZ800);
 
 //////////////////////////////////////////////////////////Globale Section/////////////////////////////////////////////////////////////////////////
 Model model;
@@ -30,13 +31,16 @@ void setup() {
   pinMode(2, OUTPUT);
   
   Serial.println("insert RGB values...");
-  controller.setDelay(5000);
-  RGB pin_color = { 56, 0, 48 };
-  controller.insertRGB(pin_color);
-  pin_color = { 56, 250, 48 };
-  controller.insertRGB(pin_color);
-  pin_color = { 56, 80, 48 };
-  controller.insertRGB(pin_color);
+  //controller.setDelay(5000);
+  /*RGB pin_color = { 255, 0, 0 };
+  controller.insertRGB(pin_color);*/
+
+  uint16_t i;
+  for (i = 0; i < strip.numPixels(); i++) {
+    strip.setPixelColor(i, 0, 0, 255);
+  }
+  strip.show();
+  
   printf(".............\n");
 }
 
@@ -46,7 +50,7 @@ void loop() {
   wserver->serverListener();                                // Start the listener  
   wserver->webSocketListener();                             // Constantly check for websocket events
   ArduinoOTA.handle();                                      // Listen for OTA events
-  controller.runQueue();
+  
   if (s_mode == SET_COLOR) {
     controller.runQueue();
   }

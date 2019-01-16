@@ -54,6 +54,11 @@ class Controller {
         { 
           this->model.Off();
         }   
+
+        void clearQueue()
+        {
+          this->model.clearQueue();
+        }
     private:
         Model model;
         RGB pin_color = { 0, 0, 0 };

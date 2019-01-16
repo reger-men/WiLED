@@ -167,7 +167,8 @@ class WebServer{
             break;
           case WStype_TEXT:                                   // If new text data is received
             printf("[%u] get Text: %s\n", num, payload);
-
+            
+            
             if (payload[0] == '#') {                          // Get RGB data
               payload++;
               char delimiter[] = ",";
@@ -180,6 +181,7 @@ class WebServer{
                 printf("RGB Value: %s\n", rgb_str);
                 rgb_str = strtok(NULL, delimiter);
               }
+              this->controller.clearQueue();
               this->controller.insertRGBArray(rgbs, i);
               s_mode = SET_COLOR;
             } else if (payload[0] == 'R') {                      

@@ -1,5 +1,4 @@
 #pragma once
-
 #include <Arduino.h>
 #include <queue>
 
@@ -21,10 +20,6 @@ class Model {
         void setRGB(RGB rgb)
         { 
           //Set the new RGB Values
-          //digitalWrite(kRedPin,   ((rgb.r)/100));                 
-          //digitalWrite(kGreenPin, ((rgb.g)/100));                            
-          //digitalWrite(kBluePin,  ((rgb.b)/100));
-          
           analogWrite(kRedPin,   rgb.r);                 
           analogWrite(kGreenPin, rgb.g);                            
           analogWrite(kBluePin,  rgb.b);
@@ -47,15 +42,21 @@ class Model {
           digitalWrite(kGreenPin, 0);                             
           digitalWrite(kBluePin,  0);
         }
+
+        void clearQueue() 
+        {
+          std::queue<RGB> empty;
+          std::swap( this->RGBQueue, empty );                     // Clear the RGB queue
+        }
         
         void pushInQueue(RGB rgb)
         {
-          RGBQueue.push(rgb);
+          this->RGBQueue.push(rgb);
         }
         
         RGB pullFromQueue()
         {
-          return RGBQueue.front(); //Get next element
+          return RGBQueue.front();                                //Get next element
         }
         
         void shiftQueue()
@@ -77,9 +78,9 @@ class Model {
           float ret = 0;
           
           if(prev > next){
-            ret = prev - ((float)(prev_queue-next)/(float)this->transitionSteps);
+            ret = floor(prev - ((float)(prev_queue-next)/(float)this->transitionSteps));
           }else{
-            ret = prev + ((float)(next-prev_queue)/(float)this->transitionSteps);
+            ret = ceil(prev + ((float)(next-prev_queue)/(float)this->transitionSteps));
           }
           int min_value = min(prev_queue, next);
           int max_value = max(prev_queue, next);
@@ -90,8 +91,9 @@ class Model {
           return (int)ret;
         }
 
-        void applyQueue(SwitchMode sw_mode = FADE)
-        {        
+        // Update Transistion Phase
+        void updateTransistionPhase()
+        {
           unsigned long currentMillis = millis(); 
           unsigned long period = currentMillis - previousMillis; 
           
@@ -99,20 +101,25 @@ class Model {
             tr_phase = TRANSITION;
           }
           if(period > this->delay_ + (this->switchColorDelay*2)){ //End transition
-            previousMillis = currentMillis; //Rest timer
+            previousMillis = currentMillis;                       //Rest timer
             tr_phase = SETCOLOR;
-            printf("SETCOLOR\n");
           }
+        }
+
+        
+        void applyQueue(SwitchMode sw_mode = FADE)
+        {        
+          RGB tmp = {0,0,0}; RGB rgb = {0,0,0};
+          updateTransistionPhase();                               // Update Transistion Phase
           
           
-          RGB tmp = {255,255,255}; RGB rgb = {100,100,100};
           switch (tr_phase) {
             case SETCOLOR:
-              tmp = this->pullFromQueue();        //Get the first item from the queue
-              this->setRGB(tmp);                  //Set the RGB Value 
-              this->shiftQueue();                 //Shift the queue to update the items order
+              tmp = this->pullFromQueue();                        //Get the first item from the queue
+              this->setRGB(tmp);                                  //Set the RGB Value 
+              this->shiftQueue();                                 //Shift the queue to update the items order
               
-              prev_queue_color = tmp;                   //Set the Current Color to prev
+              prev_queue_color = tmp;                             //Set the Current Color to prev
               this->current_step = 0;
               delay(this->delay_);
               break;
@@ -122,15 +129,12 @@ class Model {
               tmp.r = getNextColor(prev_queue_color.r, prev_color.r, rgb.r); 
               tmp.g = getNextColor(prev_queue_color.g, prev_color.g, rgb.g); 
               tmp.b = getNextColor(prev_queue_color.b, prev_color.b, rgb.b);
-              
-              //printf("prev_queue_color.g Value: %i\n", prev_queue_color.g);
-              //printf("next.g Value: %i\n", rgb.g);
-              //printf("prev_color.g Value: %i\n", prev_color.g);                
-              this->setRGB(tmp);                  //Set the RGB Value 
+                            
+              this->setRGB(tmp);                                //Set the RGB Value 
               
               this->current_step = min(this->current_step+1, this->transitionSteps);      
 
-              delay(5);
+              delay(this->TRANSITION_DELAY);
               break;
             default:
             
@@ -147,18 +151,15 @@ class Model {
       std::queue<RGB> RGBQueue;
       
       
-      RGB prev_color = {0,0,0};                     // Store the preview color
-      RGB prev_queue_color = {0,0,0};                     // Store the preview color
+      RGB prev_color             = {0,0,0};                     // Store the preview color
+      RGB prev_queue_color       = {0,0,0};                     // Store the preview color from queue
       int current_step = 0;
       
-      unsigned long switchColorDelay = 0;
-      unsigned long transitionTimer = 0;
-      unsigned long previousMillis = 0;
+      unsigned long switchColorDelay  = 0;
+      unsigned long previousMillis    = 0;
       
-      float TRANSITION_PART = 0.2f;                 //Set the transition part as 20 percent
-      uint8_t TRANSITION_DELAY = 20;                     //Set the transition time (ms)
-      int transitionSteps = 0;                      //Steps number for one transition
-      unsigned long delay_ = 1000;
-    
-      int currentStep = 0;
+      float TRANSITION_PART     = 0.4f;                         //Set the transition part as 20 percent
+      uint8_t TRANSITION_DELAY  = 20;                           //Set the transition time (ms)
+      int transitionSteps       = 0;                            //Steps number for one transition
+      unsigned long delay_      = 1000;
 };

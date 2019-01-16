@@ -1,6 +1,9 @@
 #pragma once
 #include <stdint.h>
 
+#define PIN 14
+#define NUMLEDS 310
+
 enum StateMode { SET_COLOR, OFF, ON, BLINK };
 StateMode s_mode = OFF;
 
@@ -9,6 +12,7 @@ SwitchMode sw_mode = FADE;
 
 enum TransitionPhase { SETCOLOR, TRANSITION };
 TransitionPhase tr_phase = SETCOLOR;
+
 
 struct rgb             
 {
