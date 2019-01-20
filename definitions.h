@@ -2,7 +2,7 @@
 #include <stdint.h>
 
 #define PIN 14
-#define NUMLEDS 310
+#define NUMLEDS 300
 
 enum StateMode { SET_COLOR, OFF, ON, BLINK };
 StateMode s_mode = OFF;
