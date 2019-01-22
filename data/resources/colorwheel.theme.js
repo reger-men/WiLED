@@ -17,7 +17,7 @@ ColorWheel.extend('theme', function (colorWheel) {
         d.color.v = parseInt(this.value) / 100;
         colorWheel.dispatch.markersUpdated();
       })
-      .on('change', function () {
+      .on('change', function (d) {
         colorWheel.dispatch.updateEnd();
       });
 
@@ -47,7 +47,9 @@ ColorWheel.extend('theme', function (colorWheel) {
           this.style.order = this.style.webkitOrder = i % 3;
           break;
         default:
-          this.style.order = this.style.webkitOrder = ColorWheel.markerDistance(i);
+		  var order = ColorWheel.markerDistance(i);
+          this.style.order = this.style.webkitOrder = order;
+		  d.id = ColorWheel.markerID(order, 5); // Update the id value
           break;
       }
     });

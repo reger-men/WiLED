@@ -62,7 +62,7 @@ class Model {
         void shiftQueue()
         {
           RGB front = this->pullFromQueue();
-          RGBQueue.pop(); //Remove next element
+          this->RGBQueue.pop(); //Remove next element
           this->pushInQueue(front);
         }
         

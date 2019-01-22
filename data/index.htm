@@ -65,16 +65,21 @@
 	<!-- Color Picker -->
   <script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/bower_components/d3/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/bower_components/tinycolor/tinycolor.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/colorwheel.js"></script>
+  <!--<script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/colorwheel.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/colorwheel.mode.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/colorwheel.theme.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/colorwheel.gradient.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/colorwheel.gradient.js"></script>-->
+  
+  <script src="resources/colorwheel.js"></script>
+  <script src="resources/colorwheel.mode.js"></script>
+  <script src="resources/colorwheel.theme.js"></script>
+  <script src="resources/colorwheel.gradient.js"></script>
   <script>
     var colorWheel = new ColorWheel();
     colorWheel.bindData(5);
 	
 	//WebSocket setup connection
-	var host = window.location.hostname;
+	/*var host = window.location.hostname;
 	var ws_url = 'ws://' + host + ':81';
 	var connection = new WebSocket(ws_url, ['arduino']);
 	
@@ -89,24 +94,30 @@
 	};
 	connection.onclose = function () {
 	  console.log('WebSocket connection closed');
-	};
+	};*/
 	
-	colorWheel.dispatch.on('updateEnd.gradient', function () {
+	// To store the previous rgb colors
+	var prev_rgbs = [];
+	
+	// Event if the value of the color wheel has been changed
+	colorWheel.dispatch.on('updateEnd', function () {
 		var gradientStops = colorWheel.getColorsAsRGB();
 		
-		var rgb_values = $.map(gradientStops,function(value){
+		rgb_values = $.map(gradientStops,function(value){
 			var result = ((value.split('(')[1]).split(')')[0]).split(',');
 			console.log(result);
 			return result;
 		});
 		console.log(rgb_values);
 		
-		var rgb_str = '#' + rgb_values.toString(16);
+		prev_rgbs = rgb_values;
+		
+		var rgb_str = '#' + rgb_values.toString();
 		console.log('RGB: ' + rgb_str);
 		connection.send(rgb_str);
 	
 	});
-  
+
   </script>
   </body>
 </html>

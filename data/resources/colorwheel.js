@@ -14,9 +14,10 @@
 }(this, function (tinycolor, d3) {
   'use strict';
 
-  var ColorWheelMarkerDatum = function ColorWheelMarkerDatum(color, name, show) {
+  var ColorWheelMarkerDatum = function ColorWheelMarkerDatum(color, name, show, id=0) {
     this.color = tinycolor(color).toHsv();
-    this.name = name;
+    this.id = id;
+	this.name = name;
     this.show = show;
   };
 
@@ -93,8 +94,8 @@
       'markersUpdated',
 
       // "updateEnd" means the state of the ColorWheel has been finished updating.
-      'updateEnd',
-
+      'updateEnd',	  
+	  
       // Initial data was successfully bound.
       'bindData',
 
@@ -212,6 +213,7 @@
     this.dispatch.bindData(data);
     this.dispatch.markersUpdated();
     this.dispatch.updateEnd();
+	this.dispatch.updateEnd();
   };
 
   ColorWheel.prototype.getDragBehavior = function () {
@@ -512,7 +514,11 @@
   ColorWheel.stepFn = function (base) {
     return function (x) { return Math.floor(x / base); }
   };
-
+  
+  ColorWheel.markerID = function (i, len) {
+    return (i + len)%len;
+  };
+  
   // Throw an error if someone gives us a bad mode.
   ColorWheel.checkIfModeExists = function (mode) {
     var modeExists = false;

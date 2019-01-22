@@ -184,8 +184,8 @@ class WebServer{
               this->controller.clearQueue();
               this->controller.insertRGBArray(rgbs, i);
               s_mode = SET_COLOR;
-            } else if (payload[0] == 'R') {                      
-              
+            } else if (payload[0] == '$') {                      
+
             } else if (payload[0] == 'N') {                      
               
             }
