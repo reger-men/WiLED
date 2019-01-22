@@ -106,7 +106,6 @@ class Model {
           }
         }
 
-        
         void applyQueue(SwitchMode sw_mode = FADE)
         {        
           RGB tmp = {0,0,0}; RGB rgb = {0,0,0};

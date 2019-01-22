@@ -1,7 +1,8 @@
 #pragma once
 #include <stdint.h>
 
-#define PIN 12
+
+#define PIN 14
 #define NUMLEDS 300
 
 enum StateMode { SET_COLOR, OFF, ON, BLINK };
