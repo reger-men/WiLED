@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 
+#define BUILTIN_LED 2                       // Build-in LED PIN on ESP8266
 #define SMD_STRIP   1                       // 5050 SMD RGB DC 12V 
 #define WS28_STRIP  1                       // WS2811/WS2812/WS2812b RGB DC 5V 
 #define LED_PIN     14

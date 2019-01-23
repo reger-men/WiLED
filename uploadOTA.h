@@ -56,8 +56,8 @@ class UploadOTA {
         }
         
     protected:
-      const char* ssid_ = "hama";
-      const char* password_ = "Andrea0111";
+      const char* ssid_ = "SSID";
+      const char* password_ = "PASSWORD";
       
     private:
             
