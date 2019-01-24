@@ -7,10 +7,7 @@
 #include "webServer.h"
 #include "uploadOTA.h"
 
-#ifdef WS28_STRIP
-  #include <WS2812FX.h>
-  WS2812FX strip = WS2812FX(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
-#endif
+
 
 //////////////////////////////////////////////////////////Globale Section/////////////////////////////////////////////////////////////////////////
 Model model;

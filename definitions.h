@@ -1,9 +1,13 @@
 #pragma once
 #include <stdint.h>
 
-#define BUILTIN_LED 2                       // Build-in LED PIN on ESP8266
-#define SMD_STRIP   1                       // 5050 SMD RGB DC 12V 
+
+enum Strip_Type { ESMD_STRIP, EWS28_STRIP };
+Strip_Type strip_type = EWS28_STRIP;
+
+#define SMD_STRIP   0                       // 5050 SMD RGB DC 12V 
 #define WS28_STRIP  1                       // WS2811/WS2812/WS2812b RGB DC 5V 
+#define BUILTIN_LED 2                       // Build-in LED PIN on ESP8266
 #define LED_PIN     14
 #define NUM_LEDS    300
 
@@ -23,5 +27,4 @@ struct rgb
   uint8_t g;
   uint8_t b;
 };
-
 typedef struct rgb RGB;  
