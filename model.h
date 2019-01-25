@@ -67,9 +67,9 @@ class Model {
         }
 
     protected:
-      std::queue<RGB> RGBQueue_;									// Queue that contains all the RGB values
+      std::queue<RGB> RGBQueue_;				    // Queue that contains all the RGB values
       
-      unsigned long switchColorDelay_   = 0;						// Set transition duration
+      unsigned long switchColorDelay_   = 0;			    // Compute transition duration
       float TRANSITION_PART             = 0.4f;                     // Set the transition part as 20 percent
       uint8_t TRANSITION_DELAY          = 20;                       // Set the transition time (ms)
       int transitionSteps_              = 0;                        // Steps number for one transition
