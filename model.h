@@ -11,7 +11,7 @@ class Model {
           printf("Init Model with default constructor.\n");
         }
 
-		    // Abstract methods which has to be implemeted by its subclasses
+	// Abstract methods which has to be implemeted by its subclasses
         virtual void setRGB(RGB rgb)  = 0;
         virtual void on()             = 0;
         virtual void off()            = 0;
