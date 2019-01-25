@@ -3,6 +3,7 @@
 */
 #include "definitions.h"
 #include "model.h"
+#include "model_factory.h"
 #include "controller.h"
 #include "webServer.h"
 #include "uploadOTA.h"
@@ -10,7 +11,8 @@
 
 
 //////////////////////////////////////////////////////////Globale Section/////////////////////////////////////////////////////////////////////////
-Model model;
+Model_Factory model_factory;
+Model *model;
 Controller controller; 
 WebServer *wserver;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -21,9 +23,9 @@ void setup() {
   Serial.println("Booting");
   UploadOTA uploadOTA;
 
-  model = Model();
-  controller = Controller(model); 
-  wserver = new WebServer(controller);
+  model       = model_factory.create(strip_type);
+  controller  = Controller(model); 
+  wserver     = new WebServer(controller);
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   

@@ -11,21 +11,21 @@ class Controller {
           printf("Init Controller with default constructor.\n");
         }
         
-        Controller(const Model &m) : model(m){}
+        Controller(Model *m) : model(m){}
                 
         void setRGB(RGB rgb) 
         {
-          this->model.setRGB(rgb);
+          this->model->setRGB(rgb);
         }
         
         void setDelay(int sec)
         {
-          this->model.setDelay(sec);
+          this->model->setDelay(sec);
         }
         
         void insertRGB(RGB rgb)
         {
-          this->model.pushInQueue(rgb);
+          this->model->pushInQueue(rgb);
         }
         
         void insertRGBArray(uint8_t rgbs[], uint8_t len)
@@ -42,24 +42,25 @@ class Controller {
         
         void runQueue()
         {
-          this->model.applyQueue();
+          this->model->applyQueue();
         }
         
         void On() 
         { 
-          this->model.On();
+          this->model->on();
         }
         
         void Off() 
         { 
-          this->model.Off();
+          this->model->off();
         }   
 
         void clearQueue()
         {
-          this->model.clearQueue();
+          this->model->clearQueue();
         }
+    protected:
+      Model *model;
     private:
-        Model model;
-        RGB pin_color = { 0, 0, 0 };
+      RGB pin_color = { 0, 0, 0 };
 };

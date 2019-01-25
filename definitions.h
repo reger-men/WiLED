@@ -2,7 +2,7 @@
 #include <stdint.h>
 
 
-enum Strip_Type { ESMD_STRIP, EWS28_STRIP };
+enum Strip_Type { ESMD_STRIP, EWS28_STRIP };// Use E* prefix for enum
 Strip_Type strip_type = EWS28_STRIP;
 
 #define SMD_STRIP   0                       // 5050 SMD RGB DC 12V 
