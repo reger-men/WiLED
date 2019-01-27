@@ -9,10 +9,7 @@
 #include "uploadOTA.h"
 
 
-
 //////////////////////////////////////////////////////////Globale Section/////////////////////////////////////////////////////////////////////////
-Model_Factory model_factory;
-Model *model;
 Controller controller; 
 WebServer *wserver;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,16 +20,20 @@ void setup() {
   Serial.println("Booting");
   UploadOTA uploadOTA;
 
-  model       = model_factory.create(strip_type);
-  controller  = Controller(model); 
-  wserver     = new WebServer(controller);
+  //////////////////////////////////////////////////////////MVC & Factory /////////////////////////////////////////////////////////////////////////
+  Model_Factory model_factory;
+  Model *model  = model_factory.create(strip_type);
+  printf("Model1 Address: %p\n", model);
+
+  
+  controller    = Controller(model); 
+  wserver       = new WebServer(controller);
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   
   Serial.println("LED initialization...");
   pinMode(2, OUTPUT);
-  pinMode(12, OUTPUT);
-  
+    
   //Serial.println("insert RGB values...");
   //controller.setDelay(5000);
   /*RGB pin_color = { 255, 0, 0 };
@@ -46,6 +47,10 @@ void loop() {
   wserver->serverListener();                                // Start the listener  
   wserver->webSocketListener();                             // Constantly check for websocket events
   ArduinoOTA.handle();                                      // Listen for OTA events
+
+  if(strip_type == EWS28_STRIP){                            // Continually run the animation service for WS28xx strip
+    controller.runModelService();
+  }
   
   if (s_mode == SET_COLOR) {
     controller.runQueue();

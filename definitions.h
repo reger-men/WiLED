@@ -9,7 +9,7 @@ Strip_Type strip_type = EWS28_STRIP;
 #define WS28_STRIP  1                       // WS2811/WS2812/WS2812b RGB DC 5V 
 #define BUILTIN_LED 2                       // Build-in LED PIN on ESP8266
 #define LED_PIN     14
-#define NUM_LEDS    300
+#define NUM_LEDS    30
 
 enum StateMode { SET_COLOR, OFF, ON, BLINK };
 StateMode s_mode = OFF;

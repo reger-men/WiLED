@@ -7,8 +7,9 @@ class SMD_Model : public Model{
     public:
         SMD_Model()
         {
-    			printf("Initialize the pins as an output...\n");
-    
+    			printf("SMD: Initialize the pins as an output...\n");
+          this->stripModel = ESMD_STRIP;
+          
     			pinMode(kRedPin,    OUTPUT);     
     			pinMode(kGreenPin,  OUTPUT);
     			pinMode(kBluePin,   OUTPUT);
@@ -58,6 +59,7 @@ class SMD_Model : public Model{
 
         void applyQueue(SwitchMode sw_mode = FADE)
         {        
+          printf("SMD: Set RGB");
           RGB tmp = {0,0,0}; RGB rgb = {0,0,0};
           updateTransistionPhase();                               	// Update Transistion Phase
           

@@ -12,7 +12,12 @@ class Controller {
         }
         
         Controller(Model *m) : model(m){}
-                
+
+        void runModelService()
+        {
+          this->model->runService();
+        }
+        
         void setRGB(RGB rgb) 
         {
           this->model->setRGB(rgb);

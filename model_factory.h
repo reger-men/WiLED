@@ -11,9 +11,9 @@ class Model_Factory {
 	    {
 		    switch(type) {
   			  case ESMD_STRIP:
-  				  return new SMD_Model();
+  				  return new SMD_Model;
   			  case EWS28_STRIP:
-  				  return new WS28_Model();
+  				  return new WS28_Model;
   			  default: // Compilation error
   				  printf("Init Model error. Model type is not defined.\n");
   				  return NULL;
