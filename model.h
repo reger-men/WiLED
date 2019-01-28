@@ -15,7 +15,6 @@ class Model {
       virtual void setRGB(RGB rgb)  = 0;
       virtual void on()             = 0;
       virtual void off()            = 0;
-      virtual void applyQueue(SwitchMode sw_mode = FADE) = 0;
       virtual void runService(){}; // Do nothing: this method will be overwritten if needed.
       
       void pushInQueue(RGB rgb)
@@ -65,14 +64,66 @@ class Model {
           
         return (int)ret;
       }
-      
+
+      // Update Transistion Phase
+      TransitionPhase getTransistionPhase()
+      {
+        unsigned long currentMillis = millis(); 
+        unsigned long period = currentMillis - previousMillis_; 
+          
+        if ((period >= this->delay_) and (period <= this->delay_ + (this->switchColorDelay_*2))){ // Transition period
+          return TRANSITION;
+        }
+        if(period > this->delay_ + (this->switchColorDelay_*2)){   //End transition
+          previousMillis_ = currentMillis;                        //Rest timer
+          return SETCOLOR;
+        }
+      }
+
+      void applyQueue(SwitchMode sw_mode = FADE)
+      {        
+        RGB tmp = {0,0,0}; RGB rgb = {0,0,0};
+        TransitionPhase tr = getTransistionPhase();                                 // Update Transistion Phase
+ 
+        switch (tr) {
+          case SETCOLOR:
+            tmp = this->pullFromQueue();                          //Get the first item from the queue
+            this->setRGB(tmp);                                    //Set the RGB Value 
+            this->shiftQueue();                                   //Shift the queue to update the items order
+              
+            prev_queue_color_ = tmp;                              //Set the Current Color to prev
+            this->current_step_ = 0;
+            delay(this->delay_);
+            break;
+          case TRANSITION:
+              
+            rgb = this->pullFromQueue();
+            tmp.r = getNextColor(prev_queue_color_.r, prev_color_.r, rgb.r); 
+            tmp.g = getNextColor(prev_queue_color_.g, prev_color_.g, rgb.g); 
+            tmp.b = getNextColor(prev_queue_color_.b, prev_color_.b, rgb.b);
+                            
+            this->setRGB(tmp);                                  //Set the RGB Value 
+              
+            this->current_step_ = min(this->current_step_+1, this->transitionSteps_);      
+            delay(this->TRANSITION_DELAY);
+            break;
+          default:
+            
+            break;
+        }
+      }
     protected:
-      std::queue<RGB> RGBQueue_;									                  // Queue that contains all the RGB values
-      Strip_Type stripModel;             //= null;                     // Store the strip model
+      std::queue<RGB> RGBQueue_;									                // Queue that contains all the RGB values
+      Strip_Type stripModel;                                      // Store the strip model
       
-      unsigned long switchColorDelay_   = 0;						            // Set transition duration
-      float TRANSITION_PART             = 0.4f;                     // Set the transition part as 20 percent
-      uint8_t TRANSITION_DELAY          = 20;                       // Set the transition time (ms)
-      int transitionSteps_              = 0;                        // Steps number for one transition
-      unsigned long delay_              = 1000;                     // Steps the delay value for one color
+      unsigned long switchColorDelay_   = 0;						          // Set transition duration
+      float TRANSITION_PART             = 0.4f;                   // Set the transition part as 20 percent
+      uint8_t TRANSITION_DELAY          = 20;                     // Set the transition time (ms)
+      int transitionSteps_              = 0;                      // Steps number for one transition
+      unsigned long delay_              = 3000;                   // Steps the delay value for one color
+
+      RGB prev_color_                   = {0,0,0};                // Store the preview color
+      RGB prev_queue_color_             = {0,0,0};                // Store the preview color from queue
+      int current_step_                 = 0;
+      unsigned long previousMillis_     = 0;
 };

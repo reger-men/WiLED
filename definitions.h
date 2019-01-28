@@ -1,6 +1,12 @@
 #pragma once
 #include <stdint.h>
 
+#define RED        (uint32_t)0xFF0000
+#define GREEN      (uint32_t)0x00FF00
+#define BLUE       (uint32_t)0x0000FF
+#define MAGENTA    (uint32_t)0xFF00FF
+#define PURPLE     (uint32_t)0x400080
+#define ORANGE     (uint32_t)0xFF3000
 
 enum Strip_Type { ESMD_STRIP, EWS28_STRIP };// Use E* prefix for enum
 Strip_Type strip_type = EWS28_STRIP;
@@ -9,7 +15,7 @@ Strip_Type strip_type = EWS28_STRIP;
 #define WS28_STRIP  1                       // WS2811/WS2812/WS2812b RGB DC 5V 
 #define BUILTIN_LED 2                       // Build-in LED PIN on ESP8266
 #define LED_PIN     14
-#define NUM_LEDS    30
+#define LED_COUNT   30
 
 enum StateMode { SET_COLOR, OFF, ON, BLINK };
 StateMode s_mode = OFF;

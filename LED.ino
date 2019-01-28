@@ -23,8 +23,6 @@ void setup() {
   //////////////////////////////////////////////////////////MVC & Factory /////////////////////////////////////////////////////////////////////////
   Model_Factory model_factory;
   Model *model  = model_factory.create(strip_type);
-  printf("Model1 Address: %p\n", model);
-
   
   controller    = Controller(model); 
   wserver       = new WebServer(controller);
