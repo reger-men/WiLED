@@ -34,8 +34,8 @@ class Controller {
         }
         
         void insertRGBArray(uint8_t rgbs[], uint8_t len)
-        {
-          for (int i = 0; i < len/3; i++){
+        { 
+          for (int i = 0; i < (len/3); i++){
             pin_color.r = rgbs[(i*3) + 0];
             pin_color.g = rgbs[(i*3) + 1];
             pin_color.b = rgbs[(i*3) + 2];
@@ -44,18 +44,31 @@ class Controller {
             this->insertRGB(pin_color);
           }
         }
-        
-        void runQueue()
+
+        void updateColors(uint8_t rgbs[], uint8_t len, StateMode sm)
         {
-          this->model->applyQueue();
+          s_mode = sm;
+          this->clearQueue();
+          this->insertRGBArray(rgbs, len);
+          this->model->updateDelay();
+        }
+
+        void updateMode(uint8_t m)
+        {
+          s_mode = SET_MODE;
         }
         
-        void On() 
+        void run()
+        {
+          this->model->applyQueue(s_mode, sw_mode);
+        }
+        
+        void on() 
         { 
           this->model->on();
         }
         
-        void Off() 
+        void off() 
         { 
           this->model->off();
         }   

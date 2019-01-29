@@ -50,7 +50,5 @@ void loop() {
     controller.runModelService();
   }
   
-  if (s_mode == SET_COLOR) {
-    controller.runQueue();
-  }
+  controller.run();
 }

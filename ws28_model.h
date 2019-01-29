@@ -6,51 +6,103 @@
 // Only the Model has the access to the LED strip
 class WS28_Model : public Model{
     public:     
-        WS28_Model()
-        {
-			    printf("WS28: Initialize the pins as an output...\n");
-          this->stripModel = EWS28_STRIP;
+      WS28_Model()
+      {
+		    printf("WS28: Initialize the pins as an output...\n");
+        this->stripModel = EWS28_STRIP;
           
-			    this->strip = new WS2812FX(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
-          this->strip->init();
-          this->strip->setBrightness(brightness_);
-          this->strip->setSpeed(delay_);
-          this->strip->setColor(0x007BFF);
-          this->strip->setMode(FX_MODE_STATIC);
-          this->strip->start();
+  		  this->strip = new WS2812FX(kLEDCount, kLEDPin, NEO_GRB + NEO_KHZ800);
+        this->strip->init();
+        this->strip->setBrightness(brightness_);
+        this->strip->setSpeed(speed_);
+        this->strip->setColor(0x000000);
+        this->strip->setMode(FX_MODE_STATIC);
+        this->strip->start();
 
-          // Set delay
-          this->setDelay(this->delay_);
-    			// Initialize the pins values  
-    			this->off();  
-        }
+        // update delay
+        this->updateDelay();
+        // Initialize the pins values  
+      	this->off();  
+      }
 
-        void runService()
-        {
-          this->strip->service();
-        }
+      void runService()
+      {
+        this->strip->service();
+      }
         
-        void setRGB(RGB rgb)
-        { 
-    			//Set the new RGB Values
-    			strip->setColor(rgb.r, rgb.g, rgb.b);
-          strip->trigger();
-          
-    			this->prev_color_ = rgb;
-    			printf("Set RGB: %i, %i, %i\n", rgb.r, rgb.g, rgb.b);
-        }
-        
-        void on() 
-        { 
-			    strip->setColor(255, 255, 255);
-        }
-        
-        void off() 
-        { 
-			    if(strip->isRunning()) strip->stop();
-        }
+      void setRGB(RGB rgb)
+      { 
+      	//Set the new RGB Values
+      	strip->setColor(rgb.r, rgb.g, rgb.b);
+        strip->trigger();
+            
+      	this->prev_color_ = rgb;
+        printf("Set RGB: %i, %i, %i\n", rgb.r, rgb.g, rgb.b);
+      }
 
+      void setMode(uint8_t m)
+      { 
+        //Set the new Mode
+        strip->setMode(m);
+        strip->trigger();
+        
+        printf("Set Mode\n");
+      }
+      
+      void on() 
+      { 
+        strip->setColor(255, 255, 255);
+      }
+        
+      void off() 
+      { 
+        if(strip->isRunning()) strip->stop();
+      }
+
+      void updateMode(uint8_t m)
+      {
+        this->mode_ = m;
+      }
+      
+      void applyQueue(StateMode stm, SwitchMode swm) override
+      { 
+        RGB tmp = {0, 0, 0};       
+        switch (stm) {
+          case OFF:
+            this->off();
+            break;
+            
+          case ON:
+            this->on();
+            break;
+            
+          case STATIC:
+            tmp = this->pullFromQueue();
+            if(!this->isSameColor(this->prev_color_, tmp)){this->setRGB(tmp);}
+            break;
+            
+          case DYNAMIC:
+            if(swm == FLASH){
+              this->flash();
+            }else if(swm == FADE){
+              this->fade();
+            }
+            break;
+
+          case SET_MODE:
+            this->setMode(mode_);
+            break;
+              
+          default:
+            printf("applyQueue error. State Mode is not defined.\n");
+            break;
+        }
+      }
     private:
+      static const uint8_t kLEDPin      = 14;                     // Used for WS28 strip as output pin
+      static const uint16_t kLEDCount   = 30;                    // Used for WS28 strip as LED Count
+      uint8_t mode_                     = 0;
+      
 		  uint8_t brightness_               = 30;                       // Store the brightness value
-      WS2812FX *strip = nullptr;
+      WS2812FX *strip                   = nullptr;
 };

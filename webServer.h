@@ -169,7 +169,7 @@ class WebServer{
             printf("[%u] get Text: %s\n", num, payload);
             
             
-            if (payload[0] == '#') {                          // Get RGB data
+            if (payload[0] == '#') {                          // Set LED Colors
               payload++;
               char delimiter[] = ",";
               char *rgb_str = strtok((char *)payload, delimiter);
@@ -181,11 +181,11 @@ class WebServer{
                 printf("RGB Value: %s\n", rgb_str);
                 rgb_str = strtok(NULL, delimiter);
               }
-              this->controller.clearQueue();
-              this->controller.insertRGBArray(rgbs, i);
-              s_mode = SET_COLOR;
-            } else if (payload[0] == '$') {                      
-
+              this->controller.updateColors(rgbs, i, DYNAMIC);
+            } else if (payload[0] == '$') {
+              payload++; 
+              uint8_t m = *payload;                     
+              this->controller.updateMode(m);
             } else if (payload[0] == 'N') {                      
               
             }

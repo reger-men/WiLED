@@ -17,7 +17,7 @@ ColorWheel.extend('theme', function (colorWheel) {
         d.color.v = parseInt(this.value) / 100;
         colorWheel.dispatch.markersUpdated();
       })
-      .on('change', function (d) {
+      .on('mouseup', function () {
         colorWheel.dispatch.updateEnd();
       });
 

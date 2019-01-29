@@ -18,6 +18,9 @@
 	<!-- Color Picker -->
 	<link rel="stylesheet" href="//necolas.github.io/normalize.css/3.0.2/normalize.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/wheel.css">
+	
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
   </head>
 
   <body class="text-center">
@@ -38,8 +41,21 @@
         <h1 class="cover-heading">Cover your page.</h1>
         <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
         <p class="lead">
-          <a href="#" class="btn btn-lg btn-secondary">Learn more</a>
+			<select class="colorwheel-mode-toggle" style="position: inherit;">
+				<option>Custom</option>
+				<option selected="selected">Analogous</option>
+				<option>Complementary</option>
+				<option>Triad</option>
+				<option>Tetrad</option>
+				<option>Monochromatic</option>
+				<option>Shades</option>
+			</select>
         </p>
+		<p class="lead">Speed: XXXX
+			<input type="range" class="colorwheel-theme-slider" value="255">
+		</p>
+		
+		
 		
 		<div id="ColorPicker"></div>
       </main>
@@ -63,21 +79,21 @@
 	<!-- Color Picker -->
   <script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/bower_components/d3/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/bower_components/tinycolor/tinycolor.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/colorwheel.js"></script>
+  <!--<script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/colorwheel.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/colorwheel.mode.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/colorwheel.theme.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/colorwheel.gradient.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/colorwheel.gradient.js"></script>-->
   
-  <!--<script src="resources/colorwheel.js"></script>
+  <script src="resources/colorwheel.js"></script>
   <script src="resources/colorwheel.mode.js"></script>
   <script src="resources/colorwheel.theme.js"></script>
-  <script src="resources/colorwheel.gradient.js"></script>-->
+  <script src="resources/colorwheel.gradient.js"></script>
   <script>
     var colorWheel = new ColorWheel();
     colorWheel.bindData(5);
 	
 	//WebSocket setup connection
-	var host = window.location.hostname;
+	/*var host = window.location.hostname;
 	var ws_url = 'ws://' + host + ':81';
 	var connection = new WebSocket(ws_url, ['arduino']);
 	
@@ -92,7 +108,7 @@
 	};
 	connection.onclose = function () {
 	  console.log('WebSocket connection closed');
-	};
+	};*/
 	
 	// Event if the value of the color wheel has been changed
 	colorWheel.dispatch.on('updateEnd', function () {

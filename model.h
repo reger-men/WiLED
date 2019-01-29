@@ -42,12 +42,22 @@ class Model {
        
       void setDelay(int sec)
       {
-        //Compute the transition period
-        this->switchColorDelay_ = (sec * TRANSITION_PART);
-        this->transitionSteps_ = (int)((this->switchColorDelay_*2)/this->TRANSITION_DELAY);
-        this->delay_ = sec - this->switchColorDelay_;
+        this->delay_ = sec;
+        if(s_mode == DYNAMIC && sw_mode == FADE){
+          //Compute the transition period
+          this->switchColorDelay_ = (sec * TRANSITION_PART);
+          this->transitionSteps_ = (int)((this->switchColorDelay_*2)/this->TRANSITION_DELAY);
+          this->speed_ = sec - this->switchColorDelay_;
+        }else{
+          this->speed_ = sec;
+        }
       }
 
+      void updateDelay()
+      {
+        this->setDelay(this->delay_);
+      }
+      
       int getNextColor(int prev_queue, int prev, int next){
         float ret = 0;
           
@@ -70,21 +80,21 @@ class Model {
       {
         unsigned long currentMillis = millis(); 
         unsigned long period = currentMillis - previousMillis_; 
-          
-        if ((period >= this->delay_) and (period <= this->delay_ + (this->switchColorDelay_*2))){ // Transition period
+        
+        if ((period >= this->speed_) and (period <= this->speed_ + (this->switchColorDelay_*2))){ // Transition period
           return TRANSITION;
         }
-        if(period > this->delay_ + (this->switchColorDelay_*2)){   //End transition
+        if(period > this->speed_ + (this->switchColorDelay_*2)){   //End transition
           previousMillis_ = currentMillis;                        //Rest timer
           return SETCOLOR;
         }
       }
 
-      void applyQueue(SwitchMode sw_mode = FADE)
-      {        
+      void fade()
+      {
         RGB tmp = {0,0,0}; RGB rgb = {0,0,0};
         TransitionPhase tr = getTransistionPhase();                                 // Update Transistion Phase
- 
+        
         switch (tr) {
           case SETCOLOR:
             tmp = this->pullFromQueue();                          //Get the first item from the queue
@@ -93,7 +103,7 @@ class Model {
               
             prev_queue_color_ = tmp;                              //Set the Current Color to prev
             this->current_step_ = 0;
-            delay(this->delay_);
+            delay(this->speed_);
             break;
           case TRANSITION:
               
@@ -112,6 +122,56 @@ class Model {
             break;
         }
       }
+
+      void flash()
+      {
+        RGB tmp = {0,0,0};
+        tmp = this->pullFromQueue();                          //Get the first item from the queue
+        this->setRGB(tmp);                                    //Set the RGB Value 
+        this->shiftQueue();                                   //Shift the queue to update the items order
+        delay(this->speed_);
+      }
+
+      // Check if two RGB colors are the same
+      bool isSameColor(RGB c1, RGB c2)
+      {
+        if((c1.r == c2.r) && (c1.g == c2.g) && (c1.b == c2.b)){
+          return true;
+        }else{
+          return false;
+        }
+      }
+      
+      virtual void applyQueue(StateMode stm, SwitchMode swm)
+      { 
+        RGB tmp = {0, 0, 0};       
+        switch (stm) {
+          case OFF:
+            this->off();
+            break;
+            
+          case ON:
+            this->on();
+            break;
+            
+          case STATIC:
+            tmp = this->pullFromQueue();
+            if(!this->isSameColor(this->prev_color_, tmp)){this->setRGB(tmp);}
+            break;
+            
+          case DYNAMIC:
+            if(swm == FLASH){
+              this->flash();
+            }else if(swm == FADE){
+              this->fade();
+            }
+            break;
+            
+          default:
+            printf("applyQueue error. State Mode is not defined.\n");
+            break;
+        }
+      }
     protected:
       std::queue<RGB> RGBQueue_;									                // Queue that contains all the RGB values
       Strip_Type stripModel;                                      // Store the strip model
@@ -120,7 +180,8 @@ class Model {
       float TRANSITION_PART             = 0.4f;                   // Set the transition part as 20 percent
       uint8_t TRANSITION_DELAY          = 20;                     // Set the transition time (ms)
       int transitionSteps_              = 0;                      // Steps number for one transition
-      unsigned long delay_              = 3000;                   // Steps the delay value for one color
+      unsigned long speed_              = 0;                   // Steps the speed value for one color
+      unsigned long delay_              = 3000;                      // Steps the delay value 
 
       RGB prev_color_                   = {0,0,0};                // Store the preview color
       RGB prev_queue_color_             = {0,0,0};                // Store the preview color from queue
