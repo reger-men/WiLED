@@ -46,7 +46,7 @@ class WS28_Model : public Model{
         strip->setMode(m);
         strip->trigger();
         
-        printf("Set Mode\n");
+        printf("Set mode to: %i, - %s\n", strip->getMode(), strip->getModeName(strip->getMode()));
       }
       
       void on() 
