@@ -10,7 +10,7 @@
 
 
 //////////////////////////////////////////////////////////Globale Section/////////////////////////////////////////////////////////////////////////
-Controller controller; 
+Controller controller;
 WebServer *wserver;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -23,32 +23,27 @@ void setup() {
   //////////////////////////////////////////////////////////MVC & Factory /////////////////////////////////////////////////////////////////////////
   Model_Factory model_factory;
   Model *model  = model_factory.create(strip_type);
-  
-  controller    = Controller(model); 
+
+  controller    = Controller(model);
   wserver       = new WebServer(controller);
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  
+
   Serial.println("LED initialization...");
-  pinMode(2, OUTPUT);
-    
-  //Serial.println("insert RGB values...");
-  //controller.setDelay(5000);
-  /*RGB pin_color = { 255, 0, 0 };
-  controller.insertRGB(pin_color);*/
+  pinMode(BUILTIN_LED, OUTPUT);
   printf(".............\n");
 }
 
 
 // The loop function runs over and over again forever
 void loop() {
-  wserver->serverListener();                                // Start the listener  
+  wserver->serverListener();                                // Start the listener
   wserver->webSocketListener();                             // Constantly check for websocket events
   ArduinoOTA.handle();                                      // Listen for OTA events
 
-  if(strip_type == EWS28_STRIP){                            // Continually run the animation service for WS28xx strip
+  if (strip_type == EWS28_STRIP) {                          // Continually run the animation service for WS28xx strip
     controller.runModelService();
   }
-  
+
   controller.run();
 }

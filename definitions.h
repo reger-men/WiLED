@@ -1,13 +1,6 @@
 #pragma once
 #include <stdint.h>
 
-#define RED        (uint32_t)0xFF0000
-#define GREEN      (uint32_t)0x00FF00
-#define BLUE       (uint32_t)0x0000FF
-#define MAGENTA    (uint32_t)0xFF00FF
-#define PURPLE     (uint32_t)0x400080
-#define ORANGE     (uint32_t)0xFF3000
-
 enum Strip_Type { ESMD_STRIP, EWS28_STRIP };// Use E* prefix for enum
 Strip_Type strip_type = EWS28_STRIP;
 
@@ -24,11 +17,10 @@ SwitchMode sw_mode = FADE;
 enum TransitionPhase { SETCOLOR, TRANSITION };
 TransitionPhase tr_phase = SETCOLOR;
 
-
-struct rgb             
+struct rgb
 {
   uint8_t r;
   uint8_t g;
   uint8_t b;
 };
-typedef struct rgb RGB;  
+typedef struct rgb RGB;
