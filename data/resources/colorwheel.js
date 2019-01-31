@@ -31,7 +31,7 @@
       radius       : 175,
       margin       : 40, // space around the edge of the wheel
       markerWidth  : 40,
-      defaultSlice : 20,
+      defaultSlice : 45,
       initRoot     : 'red',
       initMode     : ColorWheel.modes.ANALOGOUS,
       baseClassName: 'colorwheel',

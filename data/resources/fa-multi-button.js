@@ -28,10 +28,14 @@ $.fn.famultibutton = function(pOptions) {
 		classes: ['fa-2x'],
 		backgroundIcon: 'fa-circle',
 		icon: 'fa-power-off',
-		offColor: '#2A2A2A',
-		offBackgroundColor: '#505050',
-		onColor: '#2A2A2A',
-		onBackgroundColor: '#aa6900',
+		//offColor: '#2A2A2A',
+		//offBackgroundColor: '#505050',
+		//onBackgroundColor: '#aa6900',
+		//onColor: '#2A2A2A',
+		offBgStyle: 'color: #000; box-shadow: inset 1px 1px 2px rgba(255,255,255,0.3), inset 3px 15px 45px rgba(255,255,255,0.1), inset -1px -1px 2px rgba(0,0,0,0.5), inset -3px -15px 45px rgba(0,0,0,0.2), 1px 5px 30px -4px rgb(0, 0, 0); border-radius: 999px;',
+		offStyle: 'box-shadow: inset 1px 1px 2px rgba(255,255,255,0.3), inset 3px 15px 85px rgba(255,255,255,0.1), inset -1px -1px 2px rgba(0,0,0,0.5), inset -3px -15px 45px rgba(0,0,0,0.2), 1px 5px 30px -4px rgb(0, 0, 0); border-radius: 999px; color: rgb(30, 30, 30);text-shadow: -1px -1px 0px rgba(204, 194, 9, 0.8), 1px 1px 2px rgb(0, 0, 0);',
+		onBgStyle: 'color: rgba(0, 0, 0, 0.7);text-shadow: 1px 1px 0px rgba(255,255,255,0.15);box-shadow: inset 1px 1px 2px rgba(255,255,255,0.3), inset 3px 15px 45px rgba(0,0,0,0.2), inset -1px -1px 2px rgba(0,0,0,0.5), inset -3px -15px 45px rgba(255,255,255,0.1), 1px 5px 10px -4px rgba(0,0,0,1);border-radius: 999px;',
+		onStyle: 'text-shadow: 1px 1px 0px rgba(125, 103, 28, 0.96); color: rgba(249, 219, 0, 0.89); border-radius: 999px; box-shadow: inset 1px 1px 2px rgba(255,255,255,0.3), inset 3px 15px 45px rgba(0,0,0,0.2), inset -1px -1px 2px rgba(0,0,0,0.5), inset -3px -15px 45px rgba(255,255,255,0.1), 1px 5px 10px -4px rgba(0,0,0,1);',	
 		mode: 'toggle',  //toggle, push, signal,
 		toggleOn: null,
 		toggleOff: null
@@ -76,16 +80,22 @@ return elem;
 
 			state = true;
 			
-		  	elem.children().first().css( "color", options['onBackgroundColor'] );
-		  	elem.children().last().css( "color", options['onColor'] );
+		  	//elem.children().first().css( "color", options['onBackgroundColor'] );
+		  	//elem.children().last().css( "color", options['onColor'] );
+			
+			elem.children().first().attr('style', options['onBgStyle']);
+			elem.children().last().attr('style', options['onStyle']);
 	};
 		
 	function setOff() {
 			
 			state = false;
 
-			elem.children().first().css( "color", options['offBackgroundColor'] );
-			elem.children().last().css( "color", options['offColor'] );
+			//elem.children().first().css( "color", options['offBackgroundColor'] );
+			//elem.children().last().css( "color", options['offColor'] );
+			
+			elem.children().first().attr('style', options['offBgStyle']);
+			elem.children().last().attr('style', options['offStyle']);
 	};
 	
 	function fadeOff() {
