@@ -20,11 +20,11 @@ class WS28_Model : public Model {
       this->strip->start();
 
       // update delay
-      this->updateDelay();
+      this->updateSpeed(this->delay_);
       // Initialize the pins values
       this->off();
     }
-
+    
     void runService()
     {
       this->strip->service();
@@ -33,8 +33,17 @@ class WS28_Model : public Model {
     void setBrightness(uint8_t brt)
     {
       this->brightness_ = brt;
+      this->strip->setBrightness(brt);
+      this->strip->trigger();
     }
 
+    void updateSpeed(int s = -1) {
+      s = s!=-1 ? s : this->delay_;
+      this->setSpeed(s);
+      this->strip->setSpeed(s);
+      this->strip->trigger();
+    } 
+    
     void setRGB(RGB rgb)
     {
       //Set the new RGB Values

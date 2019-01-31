@@ -18,6 +18,12 @@ class Model {
     virtual void runService() {};                   // Do nothing: this method will be overwritten if needed.
     virtual void updateMode(uint8_t m) {};          // ...
     virtual void setBrightness(uint8_t brt) {};     // ...
+    virtual void updateSpeed(int s = -1) 
+    {
+      s = s!=-1 ? s : this->delay_;
+      this->setSpeed(s);
+    }
+
 
     void pushInQueue(RGB rgb)
     {
@@ -53,11 +59,6 @@ class Model {
       } else {
         this->speed_ = sec;
       }
-    }
-
-    void updateDelay()
-    {
-      this->setSpeed(this->delay_);
     }
 
     int getNextColor(int prev_queue, int prev, int next) {
@@ -184,8 +185,8 @@ class Model {
     float TRANSITION_PART             = 0.4f;                   // Set the transition part as 20 percent
     uint8_t TRANSITION_DELAY          = 20;                     // Set the transition time (ms)
     int transitionSteps_              = 0;                      // Steps number for one transition
-    unsigned long speed_              = 0;                   // Steps the speed value for one color
-    unsigned long delay_              = 1000;                      // Steps the delay value
+    int speed_                        = 0;                   // Steps the speed value for one color
+    int delay_                        = 1000;                      // Steps the delay value
 
     RGB prev_color_                   = {0, 0, 0};              // Store the preview color
     RGB prev_queue_color_             = {0, 0, 0};              // Store the preview color from queue

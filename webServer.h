@@ -189,7 +189,7 @@ class WebServer {
             this->controller.updateMode(m);
           } else if (payload[0] == '~') {                     // ~ Set Speed
             payload++;
-            int s = atoi((const char *)payload);
+            int s = atoi((const char *)payload)*100;
             this->controller.setSpeed(s);
           } else if (payload[0] == '&') {                     // & Set Brightness
             payload++;

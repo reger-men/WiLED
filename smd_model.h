@@ -15,7 +15,7 @@ class SMD_Model : public Model {
       pinMode(kBluePin,   OUTPUT);
 
       // update delay
-      this->updateDelay();
+      this->updateSpeed(this->delay_);
       // Initialize the pins values
       this->off();
     }

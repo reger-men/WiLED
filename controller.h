@@ -25,7 +25,8 @@ class Controller {
 
     void setSpeed(int sec)
     {
-      this->model->setSpeed(sec);
+      this->model->updateSpeed(sec);
+      
     }
 
     void setBrightness(uint8_t brt)
@@ -50,17 +51,22 @@ class Controller {
       }
     }
 
-    void updateColors(uint8_t rgbs[], uint8_t len, StateMode sm)
+    void updateStateMode(StateMode sm)
     {
       s_mode = sm;
+    }
+    
+    void updateColors(uint8_t rgbs[], uint8_t len, StateMode sm)
+    {
+      this->updateStateMode(sm);
       this->clearQueue();
       this->insertRGBArray(rgbs, len);
-      this->model->updateDelay();
+      this->model->updateSpeed();
     }
 
     void updateMode(uint8_t m)
     {
-      s_mode = SET_MODE;
+      this->updateStateMode(SET_MODE);
       this->model->updateMode(m);
     }
 
@@ -71,11 +77,13 @@ class Controller {
 
     void on()
     {
+      this->updateStateMode(ON);
       this->model->on();
     }
 
     void off()
     {
+      this->updateStateMode(OFF);
       this->model->off();
     }
 
