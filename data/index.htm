@@ -7,19 +7,47 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>ESP WiLED</title>
+    <title>WiLED</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+	
     <!-- Custom styles for this template -->
-    <link href="https://getbootstrap.com/docs/4.0/examples/cover/cover.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/index.css" rel="stylesheet">
 	
 	<!-- Color Picker -->
 	<link rel="stylesheet" href="//necolas.github.io/normalize.css/3.0.2/normalize.css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/wheel.css">
+	 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/wheel.css">
 	
-	<link rel="stylesheet" href="https://seiyria.com/bootstrap-slider/css/bootstrap-slider.css">
+	<!-- Speed Slider -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/bootstrap-slider.css">
+	
+	
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/fa-multi-button.js"></script>
+
+	<script>
+	$(function($) {
+			$('#power').famultibutton({
+				icon: 'fa-power-off',
+				classes: ['fa-3x', 'faa-pulse animated-hover'],
+				onColor: '#1ce310',
+				offColor: '#cecac3',
+				offBackgroundColor: 'transparent',
+				onBackgroundColor: 'transparent',
+				toggleOn: function( ) {
+					turnOn();
+				},
+				toggleOff: function( ) {
+				  turnOff();
+				}
+			});
+	});
+	</script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/font-awesome-animation.min.css">
+	
+	
   </head>
 
   <body class="text-center">
@@ -27,41 +55,86 @@
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
       <header class="masthead mb-auto">
         <div class="inner">
-          <h3 class="masthead-brand">Cover</h3>
-          <nav class="nav nav-masthead justify-content-center">
-            <a class="nav-link active" href="#" data-pane="home">Home</a>
-            <a class="nav-link" href="#" data-pane="features">Features</a>
-            <a class="nav-link" href="#">Contact</a>
-          </nav>
+          <h3 class="masthead-brand">WiLED</h3>
         </div>
       </header>
+	  
+
 
       <main role="main" class="inner cover">
-        <h1 class="cover-heading">Cover your page.</h1>
-        <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
-        <!--<p class="lead">
-			<select class="colorwheel-mode-toggle" style="position: inherit;">
-				<option>Custom</option>
-				<option selected="selected">Analogous</option>
-				<option>Complementary</option>
-				<option>Triad</option>
-				<option>Tetrad</option>
-				<option>Monochromatic</option>
-				<option>Shades</option>
+		<div class="icon" id="power"></div>
+		
+        <p class="lead">WiLED is a Open Source project to control various types of LED strips.</p>
+		<p class="lead">
+			<select id="mode" class="colorwheel-mode-toggle select-mode" data-size="5">
+			<option selected="selected" disabled value="0">Select Mode...</option>
+			<option>Static</option>
+			<option>Blink</option>
+			<option>Breath</option>
+			<option>Color Wipe</option>
+			<option>Color Wipe Inverse</option>
+			<option>Color Wipe Reverse</option>
+			<option>Color Wipe Reverse Inverse</option>
+			<option>Color Wipe Random</option>
+			<option>Random Color</option>
+			<option>Single Dynamic</option>
+			<option>Multi Dynamic</option>
+			<option>Rainbow</option>
+			<option>Rainbow Cycle</option>
+			<option>Scan</option>
+			<option>Dual Scan</option>
+			<option>Fade</option>
+			<option>Theater Chase</option>
+			<option>Theater Chase Rainbow</option>
+			<option>Running Lights</option>
+			<option>Twinkle</option>
+			<option>Twinkle Random</option>
+			<option>Twinkle Fade</option>
+			<option>Twinkle Fade Random</option>
+			<option>Sparkle</option>
+			<option>Flash Sparkle</option>
+			<option>Hyper Sparkle</option>
+			<option>Strobe</option>
+			<option>Strobe Rainbow</option>
+			<option>Multi Strobe</option>
+			<option>Blink Rainbow</option>
+			<option>Chase White</option>
+			<option>Chase Color</option>
+			<option>Chase Random</option>
+			<option>Chase Rainbow</option>
+			<option>Chase Flash</option>
+			<option>Chase Flash Random</option>
+			<option>Chase Rainbow White</option>
+			<option>Chase Blackout</option>
+			<option>Chase Blackout Rainbow</option>
+			<option>Color Sweep Random</option>
+			<option>Running Color</option>
+			<option>Running Red Blue</option>
+			<option>Running Random</option>
+			<option>Larson Scanner</option>
+			<option>Comet</option>
+			<option>Fireworks</option>
+			<option>Fireworks Random</option>
+			<option>Merry Christmas</option>
+			<option>Fire Flicker</option>
+			<option>Fire Flicker (soft)</option>
+			<option>Fire Flicker (intense)</option>
+			<option>Circus Combustus</option>
+			<option>Halloween</option>
+			<option>Bicolor Chase</option>
+			<option>Tricolor Chase</option>
+			<option>ICU</option>
+			<option>Custom 0</option>
 			</select>
-        </p> 
-		<p class="lead">Speed: XXXX
-			<input type="range" class="colorwheel-theme-slider" value="255">
-		</p>-->
-		
-		
-		<input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="10000" data-slider-step="1" data-slider-value="14"/>
+		</p>
+			
+		<input id="speed" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="10"/>
 		<div id="ColorPicker"></div>
       </main>
 	  
       <footer class="mastfoot mt-auto">
         <div class="inner">
-          <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+          <p><a href="https://github.com/reger-men/WiLED">WiLED:</a> „Please feel free to edit or make any changes you deem necessary. Contribution is appreciated!“ <a href="https://github.com/reger-men/WiLED">GitHub</a></p>
         </div>
       </footer>
     </div>
@@ -76,31 +149,36 @@
     <script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
 	
 	<!-- Color Picker -->
-  <script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/bower_components/d3/d3.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/bower_components/tinycolor/tinycolor.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/colorwheel.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/colorwheel.mode.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/colorwheel.theme.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/colorwheel.gradient.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/bower_components/d3/d3.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/bower_components/tinycolor/tinycolor.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/colorwheel.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/colorwheel.mode.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/colorwheel.theme.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/colorwheel.gradient.js"></script>
+	  
+	<!-- Speed Slider -->
+	<script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/jquery.min.js" type="text/javascript"></script>
+	<script src="https://cdn.jsdelivr.net/gh/reger-men/LED@master/data/resources/bootstrap-slider.js" type="text/javascript"></script>
   
-  <script src="https://seiyria.com/bootstrap-slider/dependencies/js/jquery.min.js" type="text/javascript"></script>
-  <script src="https://seiyria.com/bootstrap-slider/js/bootstrap-slider.js" type="text/javascript"></script>
+
   
   <!--<script src="resources/colorwheel.js"></script>
   <script src="resources/colorwheel.mode.js"></script>
   <script src="resources/colorwheel.theme.js"></script>
   <script src="resources/colorwheel.gradient.js"></script>-->
-  <script>
   
-  
-	$('#ex1').slider({
-		formatter: function(value) {
-			return 'Current value: ' + value;
-		}
-	});
+  	
 
+
+
+
+  <script>
+
+	//////////////////////////////////////////////////////////COLOR WHEEL////////////////////////////////////////////////////////////////////////////
     var colorWheel = new ColorWheel();
     colorWheel.bindData(5);
+	
+	//////////////////////////////////////////////////////////WEBSOCKET////////////////////////////////////////////////////////////////////////////
 	
 	//WebSocket setup connection
 	var host = window.location.hostname;
@@ -120,6 +198,18 @@
 	  console.log('WebSocket connection closed');
 	};
 	
+	//////////////////////////////////////////////////////////POWER ON/OFF////////////////////////////////////////////////////////////////////////////
+	
+	function turnOn() {
+	  console.log("turnOn");   
+	}
+	
+	function turnOff() {
+	  console.log("turnOff");   
+	}
+	
+	//////////////////////////////////////////////////////////COLOR CHANGE////////////////////////////////////////////////////////////////////////////
+	
 	// Event if the value of the color wheel has been changed
 	colorWheel.dispatch.on('updateEnd', function () {
 		var gradientStops = colorWheel.getColorsAsRGB();
@@ -133,9 +223,36 @@
 		
 		var rgb_str = '#' + rgb_values.toString();
 		console.log('RGB: ' + rgb_str);
-		//connection.send(rgb_str);
-		connection.send('$43');
+		connection.send(rgb_str);
 	});
+	
+	//////////////////////////////////////////////////////////SPEED SLIDER////////////////////////////////////////////////////////////////////////////
+	
+	$('#speed').slider({
+		formatter: function(value) {
+			return 'Speed: ' + value;
+		}
+	});
+	
+	var SpeedChange = function() {
+		console.log(speed.getValue());
+		connection.send('~' + speed.getValue());
+	};
+	
+	var speed = $('#speed').slider()
+		.on('slideStop', SpeedChange)
+		.data('slider');
+	
+	//////////////////////////////////////////////////////////MODE SELECT////////////////////////////////////////////////////////////////////////////	
+	
+	var ModeChange = function() {
+		var val = $('#mode option:selected').index()-1;
+		console.log(val);
+		connection.send('$' + val);
+	};
+	
+	var mode = $('#mode').select()
+		.on('change', ModeChange);	
 
   </script>
   </body>

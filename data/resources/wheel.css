@@ -12,9 +12,9 @@ body {
   position: relative;
   z-index: 1;
   display: block;
-  width: 400px;
+  width: 350px;
   height: 400px;
-  margin: 0px auto 0; }
+  margin: -15px auto -30px; }
 
 
   
@@ -78,15 +78,17 @@ body {
   color: white; }
 
 .colorwheel-mode-toggle {
-  position: absolute;
+  position: relative;
   z-index: 2;
-  top: 20px;
-  right: 20px;
-  height: 2em;
+  height: 1.7em;
   border: none;
   background: #000;
   color: rgba(255, 255, 255, 0.75);
-  font-size: 20px; }
+  font-size: 20px; 
+  border: 1px solid #e1e1e1;
+  border-radius: 4px;
+  width: 50%;}
+
   .colorwheel-mode-toggle:hover {
     color: rgba(255, 255, 255, 0.9); }
 

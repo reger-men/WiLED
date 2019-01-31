@@ -191,10 +191,14 @@ class WebServer {
             payload++;
             int s = atoi((const char *)payload);
             this->controller.setSpeed(s);
-          } else if (payload[0] == '&') {                      // & Set Brightness
+          } else if (payload[0] == '&') {                     // & Set Brightness
             payload++;
             uint8_t b = atoi((const char *)payload);
             this->controller.setBrightness(b);
+          }else if (payload[0] == 'N') {                     // N Turn LED On
+            this->controller.on();
+          }else if (payload[0] == 'F') {                     // F Turn LED Off
+            this->controller.off();
           }
           break;
       }
