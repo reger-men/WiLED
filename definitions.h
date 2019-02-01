@@ -24,3 +24,9 @@ struct rgb
   uint8_t b;
 };
 typedef struct rgb RGB;
+
+RGB BLUE    = {0, 0, 255};
+RGB PURPLE  = {185, 0, 255};
+RGB RED     = {255, 0, 0};
+RGB ORANGE  = {255, 112, 0};
+RGB GOLD    = {255, 200, 0};

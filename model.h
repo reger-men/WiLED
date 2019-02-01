@@ -9,18 +9,23 @@ class Model {
     Model()
     {
       printf("Init Model with default constructor.\n");
+      this->pushInQueue(BLUE);
+      this->pushInQueue(PURPLE);
+      this->pushInQueue(RED);
+      this->pushInQueue(ORANGE);
+      this->pushInQueue(GOLD);
     }
 
     // Abstract methods which has to be implemeted by its subclasses
     virtual void setRGB(RGB rgb)  = 0;
     virtual void on()             = 0;
     virtual void off()            = 0;
-    virtual void runService() {};                   // Do nothing: this method will be overwritten if needed.
-    virtual void updateMode(uint8_t m) {};          // ...
-    virtual void setBrightness(uint8_t brt) {};     // ...
-    virtual void updateSpeed(int s = -1) 
+    virtual void runService() {};                               // Do nothing: this method will be overwritten if needed.
+    virtual void updateMode(uint8_t m) {};                      // ...
+    virtual void setBrightness(uint8_t brt) {};                 // ...
+    virtual void updateSpeed(int s = -1)
     {
-      s = s!=-1 ? s : this->delay_;
+      s = s != -1 ? s : this->delay_;
       this->setSpeed(s);
     }
 
@@ -32,20 +37,28 @@ class Model {
 
     RGB pullFromQueue()
     {
-      return RGBQueue_.front();                     //Get next element
+      return RGBQueue_.front();                                 //Get next element
     }
 
     void shiftQueue()
     {
       RGB front = this->pullFromQueue();
-      this->RGBQueue_.pop(); 									      //Remove next element
+      this->RGBQueue_.pop(); 									                  //Remove next element
       this->pushInQueue(front);
     }
 
     void clearQueue()
     {
       std::queue<RGB> empty;
-      std::swap( this->RGBQueue_, empty );          // Clear the RGB queue
+      std::swap( this->RGBQueue_, empty );                      // Clear the RGB queue
+    }
+
+    void setNextRGB()
+    {
+      RGB tmp = {0, 0, 0};
+      tmp = this->pullFromQueue();                              //Get the first item from the queue
+      this->setRGB(tmp);                                        //Set the RGB Value
+      this->shiftQueue();                                       //Shift the queue to update the items order
     }
 
     void setSpeed(int sec)
@@ -96,15 +109,13 @@ class Model {
     void fade()
     {
       RGB tmp = {0, 0, 0}; RGB rgb = {0, 0, 0};
-      TransitionPhase tr = getTransistionPhase();                                 // Update Transistion Phase
+      TransitionPhase tr = getTransistionPhase();               // Update Transistion Phase
 
       switch (tr) {
         case SETCOLOR:
-          tmp = this->pullFromQueue();                          //Get the first item from the queue
-          this->setRGB(tmp);                                    //Set the RGB Value
-          this->shiftQueue();                                   //Shift the queue to update the items order
+          this->setNextRGB();                                   // Set the next color from the queue
 
-          prev_queue_color_ = tmp;                              //Set the Current Color to prev
+          prev_queue_color_ = tmp;                              // Set the Current Color to prev
           this->current_step_ = 0;
           delay(this->speed_);
           break;
@@ -115,7 +126,7 @@ class Model {
           tmp.g = getNextColor(prev_queue_color_.g, prev_color_.g, rgb.g);
           tmp.b = getNextColor(prev_queue_color_.b, prev_color_.b, rgb.b);
 
-          this->setRGB(tmp);                                  //Set the RGB Value
+          this->setRGB(tmp);                                    // Set the RGB Value
 
           this->current_step_ = min(this->current_step_ + 1, this->transitionSteps_);
           delay(this->TRANSITION_DELAY);
@@ -128,10 +139,7 @@ class Model {
 
     void flash()
     {
-      RGB tmp = {0, 0, 0};
-      tmp = this->pullFromQueue();                          //Get the first item from the queue
-      this->setRGB(tmp);                                    //Set the RGB Value
-      this->shiftQueue();                                   //Shift the queue to update the items order
+      this->setNextRGB();                                       // Set the next color from the queue
       delay(this->speed_);
     }
 
@@ -185,8 +193,8 @@ class Model {
     float TRANSITION_PART             = 0.4f;                   // Set the transition part as 20 percent
     uint8_t TRANSITION_DELAY          = 20;                     // Set the transition time (ms)
     int transitionSteps_              = 0;                      // Steps number for one transition
-    int speed_                        = 0;                   // Steps the speed value for one color
-    int delay_                        = 1000;                      // Steps the delay value
+    int speed_                        = 0;                      // Steps the speed value for one color
+    int delay_                        = 1000;                   // Steps the delay value
 
     RGB prev_color_                   = {0, 0, 0};              // Store the preview color
     RGB prev_queue_color_             = {0, 0, 0};              // Store the preview color from queue

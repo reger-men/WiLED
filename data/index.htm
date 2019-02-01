@@ -31,9 +31,9 @@
 	$(function($) {
 			$('#power').famultibutton({
 				icon: 'fa-power-off',
-				classes: ['fa-3x', 'faa-pulse animated-hover'],
+				classes: ['fa-3x'],
 				onColor: '#1ce310',
-				offColor: '#cecac3',
+				offColor: '#353334',
 				offBackgroundColor: 'transparent',
 				onBackgroundColor: 'transparent',
 				toggleOn: function( ) {
@@ -63,8 +63,10 @@
 		
         <p class="lead">WiLED is a Open Source project to control various types of LED strips.</p>
 		<p class="lead">
-			<select id="mode" class="colorwheel-mode-toggle select-mode" data-size="5">
+			<select id="mode" class="selectpicker colorwheel-mode-toggle select-mode" data-size="5" disabled="true">
 			<option selected="selected" disabled value="0">Select Mode...</option>
+			<option>Fade</option>
+			<option>Flash</option>
 			<option>Static</option>
 			<option>Blink</option>
 			<option>Breath</option>
@@ -125,7 +127,9 @@
 			</select>
 		</p>
 			
-		<input id="speed" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="10"/>
+		<input id="speed" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="10"/>
+		<input id="brightness" data-slider-id='ex1Slider' type="range" data-slider-min="0" data-slider-max="255" data-slider-step="1" data-slider-value="90"/>
+		
 		<div id="ColorPicker"></div>
       </main>
 	  
@@ -156,16 +160,15 @@
 	<!-- Speed Slider -->	
 	<script src="https://cdn.jsdelivr.net/gh/reger-men/WiLED@master/data/resources/bootstrap-slider.js" type="text/javascript"></script>
 	
-  <!--<script src="resources/colorwheel.js"></script>
-  <script src="resources/colorwheel.mode.js"></script>
-  <script src="resources/colorwheel.theme.js"></script>
-  <script src="resources/colorwheel.gradient.js"></script>-->
+	<!--<script src="resources/colorwheel.js"></script>
+	<script src="resources/colorwheel.mode.js"></script>
+	<script src="resources/colorwheel.theme.js"></script>
+	<script src="resources/colorwheel.gradient.js"></script>-->
   
-
   <script>
 
 	//////////////////////////////////////////////////////////COLOR WHEEL////////////////////////////////////////////////////////////////////////////
-    var colorWheel = new ColorWheel();
+    var colorWheel = new ColorWheel('.colorwheel');
     colorWheel.bindData(5);
 	
 	//////////////////////////////////////////////////////////WEBSOCKET////////////////////////////////////////////////////////////////////////////
@@ -192,11 +195,13 @@
 	
 	function turnOn() {
 		console.log("turnOn");
+		$('#mode').attr('disabled', false);
 		connection.send('N');	  
 	}
 	
 	function turnOff() {
-		console.log("turnOff");   
+		console.log("turnOff"); 
+		$('#mode').attr('disabled', true);
 		connection.send('F');	
 	}
 	
@@ -228,17 +233,33 @@
 	
 	var SpeedChange = function() {
 		console.log(speed.getValue());
-		connection.send('~' + speed.getValue());
+		connection.send('~' + (100 - speed.getValue()));
 	};
 	
 	var speed = $('#speed').slider()
 		.on('slideStop', SpeedChange)
 		.data('slider');
 	
+	//////////////////////////////////////////////////////////Brightness SLIDER/////////////////////////////////////////////////////////////////////////
+	
+	$('#brightness').slider({
+		formatter: function(value) {
+			return 'Brightness: ' + value;
+		}
+	});
+	
+	var BrightnessChange = function() {
+		console.log(brightness.getValue());
+		connection.send('&' + brightness.getValue());
+	};
+	
+	var brightness = $('#brightness').slider()
+		.on('slideStop', BrightnessChange)
+		.data('slider');
 	//////////////////////////////////////////////////////////MODE SELECT////////////////////////////////////////////////////////////////////////////	
 	
 	var ModeChange = function() {
-		var val = $('#mode option:selected').index()-1;
+		var val = $('#mode option:selected').index()-3;
 		console.log(val);
 		connection.send('$' + val);
 	};

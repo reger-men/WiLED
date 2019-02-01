@@ -16,11 +16,11 @@ class WebServer {
   public:
     WebServer(Controller &c) : controller(c), server(80)
     {
-      startSPIFFS();                                          // Start the SPIFFS and list all contents
-      startWebSocket();                                       // Start a WebSocket server
-      startServer();                                          // Start a HTTP server with a file read handler and an upload handler
+      startSPIFFS();                                            // Start the SPIFFS and list all contents
+      startWebSocket();                                         // Start a WebSocket server
+      startServer();                                            // Start a HTTP server with a file read handler and an upload handler
 
-      httpUpdater.setup(&server, "/update");                  // Initialize http updater server
+      httpUpdater.setup(&server, "/update");                    // Initialize http updater server
     }
 
     // Convert sizes in bytes to KB and MB
@@ -54,22 +54,22 @@ class WebServer {
 
     // Send the right file to the client (if it exists)
     bool handleFileRead(String path) {
-      if (path.endsWith("/")) path += "index.htm";            // If a folder is requested, send the index file
-      if (path == "/upload")  path = "/upload.htm";           // Send the upload file
+      if (path.endsWith("/")) path += "index.htm";              // If a folder is requested, send the index file
+      if (path == "/upload")  path = "/upload.htm";             // Send the upload file
       Serial.println("handleFileRead: " + path);
 
-      String contentType = getContentType(path);              // Get the MIME type
+      String contentType = getContentType(path);                // Get the MIME type
       String pathWithGz = path + ".gz";
-      if (SPIFFS.exists(pathWithGz) || SPIFFS.exists(path)) { // If the file exists, either as a compressed archive, or normal
-        if (SPIFFS.exists(pathWithGz))                        // If there's a compressed version available
-          path += ".gz";                                      // Use the compressed verion
-        File file = SPIFFS.open(path, "r");                   // Open the file
-        size_t sent = server.streamFile(file, contentType);   // Send it to the client
-        file.close();                                         // Close the file again
+      if (SPIFFS.exists(pathWithGz) || SPIFFS.exists(path)) {   // If the file exists, either as a compressed archive, or normal
+        if (SPIFFS.exists(pathWithGz))                          // If there's a compressed version available
+          path += ".gz";                                        // Use the compressed verion
+        File file = SPIFFS.open(path, "r");                     // Open the file
+        size_t sent = server.streamFile(file, contentType);     // Send it to the client
+        file.close();                                           // Close the file again
         Serial.println(String("\tSent file: ") + path);
         return true;
       }
-      Serial.println(String("\tFile Not Found: ") + path);    // If the file doesn't exist, return false
+      Serial.println(String("\tFile Not Found: ") + path);      // If the file doesn't exist, return false
       return false;
     }
 
@@ -81,22 +81,22 @@ class WebServer {
       if (upload.status == UPLOAD_FILE_START) {
         path = upload.filename;
         if (!path.startsWith("/")) path = "/" + path;
-        if (!path.endsWith(".gz")) {                          // The file server always prefers a compressed version of a file
-          String pathWithGz = path + ".gz";                   // So if an uploaded file is not compressed, the existing compressed
-          if (SPIFFS.exists(pathWithGz))                      // version of that file must be deleted (if it exists)
+        if (!path.endsWith(".gz")) {                            // The file server always prefers a compressed version of a file
+          String pathWithGz = path + ".gz";                     // So if an uploaded file is not compressed, the existing compressed
+          if (SPIFFS.exists(pathWithGz))                        // version of that file must be deleted (if it exists)
             SPIFFS.remove(pathWithGz);
         }
         Serial.println("handleFileUpload Name: " + path);
-        fsUploadFile = SPIFFS.open(path, "w");                // Open the file for writing in SPIFFS (create if it doesn't exist)
+        fsUploadFile = SPIFFS.open(path, "w");                  // Open the file for writing in SPIFFS (create if it doesn't exist)
         path = String();
       } else if (upload.status == UPLOAD_FILE_WRITE) {
         if (fsUploadFile)
-          fsUploadFile.write(upload.buf, upload.currentSize); // Write the received bytes to the file
+          fsUploadFile.write(upload.buf, upload.currentSize);   // Write the received bytes to the file
       } else if (upload.status == UPLOAD_FILE_END) {
-        if (fsUploadFile) {                                   // If the file was successfully created
-          fsUploadFile.close();                               // Close the file again
+        if (fsUploadFile) {                                     // If the file was successfully created
+          fsUploadFile.close();                                 // Close the file again
           printf("handleFileUpload Size: %d\n", upload.totalSize);
-          server.sendHeader("Location", "/success.html");     // Redirect the client to the success page
+          server.sendHeader("Location", "/success.html");       // Redirect the client to the success page
           server.send(303);
         } else {
           server.send(500, "text/plain", "500: couldn't create file");
@@ -106,11 +106,11 @@ class WebServer {
 
     // Start the SPIFFS and list all contents
     void startSPIFFS() {
-      SPIFFS.begin();                                         // Start the SPI Flash File System (SPIFFS)
+      SPIFFS.begin();                                           // Start the SPI Flash File System (SPIFFS)
       printf("SPIFFS started. Contents:\n");
       {
         Dir dir = SPIFFS.openDir("/");
-        while (dir.next()) {                                  // List the file system contents
+        while (dir.next()) {                                    // List the file system contents
           String fileName = dir.fileName();
           size_t fileSize = dir.fileSize();
           printf("\tFS File: %s, size: %s\r\n", fileName.c_str(), formatBytes(fileSize).c_str());
@@ -121,23 +121,23 @@ class WebServer {
     // Start a HTTP server with a file read handler and an upload handler
     void startServer() {
       //Initialize Webserver
-      server.on("/upload", HTTP_POST, [this]() {              // if the client posts to the upload page
-        server.send(200);                                     // Send status 200 (OK) to tell the client we are ready to receive
-      }, std::bind(&WebServer::handleFileUpload, this)        // Receive and save the file
+      server.on("/upload", HTTP_POST, [this]() {                // if the client posts to the upload page
+        server.send(200);                                       // Send status 200 (OK) to tell the client we are ready to receive
+      }, std::bind(&WebServer::handleFileUpload, this)          // Receive and save the file
                );
 
-      server.onNotFound([this]() {                            // If the client requests any URI
-        if (!handleFileRead(server.uri()))                    // send it if it exists
-          server.send(404, "text/plain", "404: Not Found");   // otherwise, respond with a 404 (Not Found) error
+      server.onNotFound([this]() {                              // If the client requests any URI
+        if (!handleFileRead(server.uri()))                      // send it if it exists
+          server.send(404, "text/plain", "404: Not Found");     // otherwise, respond with a 404 (Not Found) error
       });
 
-      server.begin();                                         // start the HTTP server
+      server.begin();                                           // start the HTTP server
       printf("HTTP server started.\n");
     }
 
     // Start a WebSocket server
     void startWebSocket() {
-      webSocket.begin();                                      // Start the websocket server
+      webSocket.begin();                                        // Start the websocket server
       webSocket.onEvent(std::bind(&WebServer::webSocketEvent, this, _1, _2, _3, _4));          // Call webSocketEvent if there's an incomming websocket message
       printf("WebSocket server started.\n");
     }
@@ -157,17 +157,16 @@ class WebServer {
     // Event handler
     void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t lenght) {
       switch (type) {
-        case WStype_DISCONNECTED:                           // If the websocket is disconnected
+        case WStype_DISCONNECTED:                               // If the websocket is disconnected
           printf("[%u] Disconnected!\n", num);
           break;
-        case WStype_CONNECTED: {                            // if a new websocket connection is established
+        case WStype_CONNECTED: {                                // if a new websocket connection is established
             IPAddress ip = webSocket.remoteIP(num);
             printf("[%u] Connected from %d.%d.%d.%d url: %s\n", num, ip[0], ip[1], ip[2], ip[3], payload);
           }
           break;
         case WStype_TEXT:                                       // If new text data is received
           printf("[%u] get Text: %s\n", num, payload);
-
 
           if (payload[0] == '#') {                              // # Set LED Colors
             payload++;
@@ -178,26 +177,25 @@ class WebServer {
             while (rgb_str != NULL) {
               rgbs[i] = atoi(rgb_str);
               i++;
-              printf("RGB Value: %s\n", rgb_str);
               rgb_str = strtok(NULL, delimiter);
             }
-            this->controller.updateColors(rgbs, i, DYNAMIC);
-          } else if (payload[0] == '$') {                     // $ Set Strip Mode
+            this->controller.updateColors(rgbs, i);
+          } else if (payload[0] == '$') {                       // $ Set Strip Mode
             payload++;
-            uint8_t m = atoi((const char *)payload);
+            int m = atoi((const char *)payload);
             printf("m: %i\n", m);
             this->controller.updateMode(m);
-          } else if (payload[0] == '~') {                     // ~ Set Speed
+          } else if (payload[0] == '~') {                       // ~ Set Speed
             payload++;
-            int s = atoi((const char *)payload)*100;
+            int s = atoi((const char *)payload) * 100;
             this->controller.setSpeed(s);
-          } else if (payload[0] == '&') {                     // & Set Brightness
+          } else if (payload[0] == '&') {                       // & Set Brightness
             payload++;
             uint8_t b = atoi((const char *)payload);
             this->controller.setBrightness(b);
-          }else if (payload[0] == 'N') {                     // N Turn LED On
+          } else if (payload[0] == 'N') {                       // N Turn LED On
             this->controller.on();
-          }else if (payload[0] == 'F') {                     // F Turn LED Off
+          } else if (payload[0] == 'F') {                       // F Turn LED Off
             this->controller.off();
           }
           break;
@@ -207,9 +205,9 @@ class WebServer {
 
   private:
     Controller &controller;
-    File fsUploadFile;                                      // A File object to temporarily store the received file
+    File fsUploadFile;                                          // A File object to temporarily store the received file
     ESP8266WebServer server;
-    WebSocketsServer webSocket = WebSocketsServer(81);      // Create a websocket server on port 81
+    WebSocketsServer webSocket = WebSocketsServer(81);          // Create a websocket server on port 81
     ESP8266HTTPUpdateServer httpUpdater;
 
 };

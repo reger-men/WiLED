@@ -15,7 +15,7 @@ class WS28_Model : public Model {
       this->strip->init();
       this->strip->setBrightness(this->brightness_);
       this->strip->setSpeed(this->delay_);
-      this->strip->setColor(0x007BFF);
+      this->strip->setColor(0x000000);
       this->strip->setMode(FX_MODE_STATIC);
       this->strip->start();
 
@@ -24,7 +24,7 @@ class WS28_Model : public Model {
       // Initialize the pins values
       this->off();
     }
-    
+
     void runService()
     {
       this->strip->service();
@@ -38,12 +38,12 @@ class WS28_Model : public Model {
     }
 
     void updateSpeed(int s = -1) {
-      s = s!=-1 ? s : this->delay_;
+      s = s != -1 ? s : this->delay_;
       this->setSpeed(s);
       this->strip->setSpeed(s);
       this->strip->trigger();
-    } 
-    
+    }
+
     void setRGB(RGB rgb)
     {
       //Set the new RGB Values
@@ -57,6 +57,7 @@ class WS28_Model : public Model {
     void updateMode(uint8_t m)
     {
       this->mode_ = m;
+      this->setMode(m);
     }
 
     void setMode(uint8_t m)
@@ -72,12 +73,14 @@ class WS28_Model : public Model {
 
     void on()
     {
+      this->strip->setColor(0x007BFF);
       if (!this->strip->isRunning()) this->strip->start();
     }
 
     void off()
     {
-      if (strip->isRunning()) strip->stop();
+      this->strip->setColor(0x000000);
+      if (this->strip->isRunning()) this->strip->stop();
     }
 
     void applyQueue(StateMode stm, SwitchMode swm) override
@@ -108,7 +111,6 @@ class WS28_Model : public Model {
           break;
 
         case SET_MODE:
-          this->on();
           if (this->prev_mode_ != this->mode_) {
             this->setMode(mode_);
           }
@@ -125,6 +127,6 @@ class WS28_Model : public Model {
     uint8_t mode_                     = 0;
     uint8_t prev_mode_                = 255;                    // Store the previous mode
 
-    uint8_t brightness_               = 30;                     // Store the brightness value
+    uint8_t brightness_               = 90;                     // Store the brightness value
     WS2812FX *strip                   = nullptr;
 };
