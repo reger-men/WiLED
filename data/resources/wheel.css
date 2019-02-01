@@ -12,7 +12,7 @@ body {
   position: relative;
   z-index: 1;
   display: block;
-  width: 350px;
+  width: 320px;
   height: 400px;
   margin: -45px auto -30px; }
 
@@ -31,7 +31,7 @@ body {
   display: flex;
   text-align: center;
   max-width: 450px;
-  min-width: 350px;
+  min-width: 320px;
   margin: 10px auto 0; }
 
 .colorwheel-theme-swatch {
