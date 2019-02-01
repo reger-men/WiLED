@@ -15,7 +15,7 @@ class WS28_Model : public Model {
       this->strip->init();
       this->strip->setBrightness(this->brightness_);
       this->strip->setSpeed(this->delay_);
-      this->strip->setColor(0x000000);
+      this->strip->setColor(0x007BFF);
       this->strip->setMode(FX_MODE_STATIC);
       this->strip->start();
 
@@ -46,12 +46,13 @@ class WS28_Model : public Model {
 
     void setRGB(RGB rgb)
     {
-      //Set the new RGB Values
-      this->strip->setColor(rgb.r, rgb.g, rgb.b);
-      this->strip->trigger();
-
-      this->prev_color_ = rgb;
-      printf("Set RGB: %i, %i, %i\n", rgb.r, rgb.g, rgb.b);
+      if(s_mode != OFF){
+        //Set the new RGB Values
+        this->strip->setColor(rgb.r, rgb.g, rgb.b);
+        this->strip->trigger();
+        this->prev_color_ = rgb;
+        printf("Set RGB: %i, %i, %i\n", rgb.r, rgb.g, rgb.b);
+      }
     }
 
     void updateMode(uint8_t m)
@@ -73,7 +74,9 @@ class WS28_Model : public Model {
 
     void on()
     {
-      this->strip->setColor(0x007BFF);
+      unsigned long hex = this->strip->getColor() == 0 ?  0x007BFF : this->strip->getColor();
+      this->strip->setColor(hex);
+      this->strip->setMode(FX_MODE_STATIC);
       if (!this->strip->isRunning()) this->strip->start();
     }
 
