@@ -120,8 +120,11 @@ body {
 /*
  * Cover
  */
-.cover {
-  padding: 0 1.5rem;
+.cover-container.d-flex.h-100.p-3.mx-auto.flex-column {
+	padding-top: 1rem !important;
+	padding-right: 0rem !important;
+	padding-bottom: 1rem !important;
+	padding-left: 0rem !important;
 }
 .cover .btn-lg {
   padding: .75rem 1.25rem;
