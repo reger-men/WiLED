@@ -12,6 +12,10 @@
 #include <FS.h>                                                 // Include the SPIFFS library
 
 using namespace std::placeholders;
+
+
+
+
 class WebServer {
   public:
     WebServer(Controller &c) : controller(c), server(80)
@@ -19,7 +23,6 @@ class WebServer {
       startSPIFFS();                                            // Start the SPIFFS and list all contents
       startWebSocket();                                         // Start a WebSocket server
       startServer();                                            // Start a HTTP server with a file read handler and an upload handler
-
       httpUpdater.setup(&server, "/update");                    // Initialize http updater server
     }
 
@@ -106,6 +109,8 @@ class WebServer {
 
     // Start the SPIFFS and list all contents
     void startSPIFFS() {
+      
+      printf("SPIFFS starting...\n");
       SPIFFS.begin();                                           // Start the SPI Flash File System (SPIFFS)
       printf("SPIFFS started. Contents:\n");
       {
@@ -121,6 +126,7 @@ class WebServer {
     // Start a HTTP server with a file read handler and an upload handler
     void startServer() {
       //Initialize Webserver
+      printf("server starting...\n");
       server.on("/upload", HTTP_POST, [this]() {                // if the client posts to the upload page
         server.send(200);                                       // Send status 200 (OK) to tell the client we are ready to receive
       }, std::bind(&WebServer::handleFileUpload, this)          // Receive and save the file
@@ -137,6 +143,7 @@ class WebServer {
 
     // Start a WebSocket server
     void startWebSocket() {
+      printf("webSocket starting...\n");
       webSocket.begin();                                        // Start the websocket server
       webSocket.onEvent(std::bind(&WebServer::webSocketEvent, this, _1, _2, _3, _4));          // Call webSocketEvent if there's an incomming websocket message
       printf("WebSocket server started.\n");

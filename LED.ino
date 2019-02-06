@@ -30,6 +30,7 @@ void setup() {
 
   Serial.println("LED initialization...");
   pinMode(BUILTIN_LED, OUTPUT);
+  digitalWrite(LED_BUILTIN, HIGH);
   printf(".............\n");
 }
 
