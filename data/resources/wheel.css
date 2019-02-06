@@ -14,7 +14,8 @@ body {
   display: block;
   width: 320px;
   height: 400px;
-  margin: -45px auto -30px; }
+  margin: -45px auto -30px; 
+  touch-action: none; }
 
 
   
