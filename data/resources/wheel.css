@@ -1,11 +1,13 @@
 /*! Kuler D3 by Benjamin Knight */
 /** Base & Generic */
 html {
-  min-height: 100%; }
+  min-height: 100%; 
+  overflow-x: hidden;}
 
 body {
   background: black;
-  margin: 0 auto; }
+  margin: 0 auto; 
+  overflow-x: hidden;}
 
 /** Components */
 .colorwheel {
