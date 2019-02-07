@@ -61,7 +61,7 @@
       'class': this.options.baseClassName,
       width: diameter,
       height: diameter,
-	  'touch-action': 'none',
+	  'touch-action': 'manipulation',
       viewBox: [
         -1 * this.options.margin,
         -1 * this.options.margin,
