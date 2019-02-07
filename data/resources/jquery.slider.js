@@ -84,8 +84,9 @@ function _classCallCheck(t, s) {
             key: "setValue",
             value: function(t) {
                 this.value = Math.round((t - this.min) / this.step) * this.step + this.min, this.element.val(this.value);
-                var s = this.prefix + this.addCommas(this.value.toFixed(this.decimals)) + this.postfix;
-                return this.thumbSpan.text(s), this.bubbleSpan.text(s)
+                var i = this.addCommas(this.value.toFixed(this.decimals));
+				var s = this.prefix + i + this.postfix;
+                return this.thumbSpan.text(i), this.bubbleSpan.text(s)
             }
         }, {
             key: "positionThumb",
