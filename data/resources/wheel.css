@@ -14,7 +14,7 @@ body {
   display: block;
   width: 320px;
   height: 320px;
-  margin: -45px auto -30px; 
+  margin: 0px auto 0px; 
   touch-action: none; }
 
 
@@ -80,6 +80,7 @@ body {
 
 .colorwheel-mode-toggle {
   position: relative;
+  z-index: 2;
   height: 1.7em;
   border: none;
   background: #000;
