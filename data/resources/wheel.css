@@ -80,7 +80,6 @@ body {
 
 .colorwheel-mode-toggle {
   position: relative;
-  z-index: 2;
   height: 1.7em;
   border: none;
   background: #000;
