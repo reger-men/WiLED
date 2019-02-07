@@ -80,7 +80,7 @@
     this.$.wheel.append('image').attr({
       width: diameter,
       height: diameter,
-      'xlink:href': 'http://benknight.github.io/kuler-d3/wheel.png'
+      'xlink:href': 'https://cdn.jsdelivr.net/gh/reger-men/WiLED@master/data/resources/wheel.png'
     });
 
     this.$.markerTrails = this.$.wheel.append('g');
