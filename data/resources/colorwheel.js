@@ -34,7 +34,7 @@
       defaultSlice : 45,
       initRoot     : 'red',
       initMode     : ColorWheel.modes.ANALOGOUS,
-      baseClassName: 'colorwheel',
+      baseClassName: 'colorwheel manipulation',
     };
 
     // Merge default options with options param. (Similar to jQuery.extend)
@@ -59,7 +59,6 @@
     this.$ = {};
 	this.$.wheel = this.container.append('svg').attr({
       'class': this.options.baseClassName,
-	  'touch-action': 'manipulation',
       width: diameter,
       height: diameter,
       viewBox: [

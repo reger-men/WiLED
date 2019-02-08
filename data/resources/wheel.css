@@ -16,10 +16,13 @@ body {
   display: block;
   width: 320px;
   height: 320px;
-  margin: 0px auto 0px; 
-  touch-action: none; }
+  margin: 0px auto 0px;}
 
-
+@supports (touch-action:manipulation) {
+  .manipulation {
+      touch-action: manipulation;
+  }
+}
   
 .colorwheel-marker:first-child circle {
   stroke-opacity: 1;
