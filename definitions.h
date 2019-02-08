@@ -1,6 +1,8 @@
 #pragma once
 #include <stdint.h>
 
+
+
 enum Strip_Type { ESMD_STRIP, EWS28_STRIP };// Use E* prefix for enum
 Strip_Type strip_type = EWS28_STRIP;
 
@@ -30,3 +32,21 @@ RGB PURPLE  = {185, 0, 255};
 RGB RED     = {255, 0, 0};
 RGB ORANGE  = {255, 112, 0};
 RGB GOLD    = {255, 200, 0};
+
+
+#include <Espalexa.h>
+Espalexa espalexa;
+
+#include "model.h"
+#include "model_factory.h"
+#include "controller.h"
+#include "webServer.h"
+#include "uploadOTA.h"
+
+
+////////////////////////////////////////////////////////// Globale Section/////////////////////////////////////////////////////////////////////////
+Controller controller;
+WebServer *wserver;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#include "alexa.h"

@@ -4,21 +4,22 @@
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include <DNSServer.h>
-#include <WiFiManager.h>
 
 class UploadOTA {
   public:
 
     UploadOTA()
     {
-      WiFiManager wifiManager;
-      if (!wifiManager.autoConnect(ssid_, password_)) {
-        Serial.println("Failed to connect, we should reset as see if it connects");
-        delay(3000);
-        ESP.reset();
-        delay(5000);
-      }
+      WiFi.begin(this->SSID_, this->PASSWORD_);
+      WiFi.config(ip_, sn_, gw_);
 
+      WiFi.mode(WIFI_STA);
+      while (WiFi.waitForConnectResult() != WL_CONNECTED) {
+        Serial.println("Connection Failed! Rebooting...");
+        delay(5000);
+        ESP.restart();
+      }
+    
       ArduinoOTA.onStart([]() {
         String type;
         if (ArduinoOTA.getCommand() == U_FLASH) {
@@ -58,8 +59,12 @@ class UploadOTA {
     }
 
   protected:
-    char const* ssid_ = "WiLED";
-    char const* password_ = "WiLED123";
+    IPAddress ip_ = IPAddress(192,168,2,222);   
+    IPAddress gw_ = IPAddress(192,168,2,254);   
+    IPAddress sn_ = IPAddress(255,255,255,0); 
+    
+    const char* SSID_      = "SSID_";
+    const char* PASSWORD_  = "PASSWORD_";
 
   private:
 

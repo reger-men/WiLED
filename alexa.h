@@ -1,6 +1,7 @@
 #pragma once
 
 void onCallback(uint8_t brightness) {
+    printf("brightness: %i\n",  brightness);
     if (brightness == 255) {
       controller.on();
     }
@@ -12,34 +13,41 @@ void onCallback(uint8_t brightness) {
     }
 }
 
+void checkOff(uint8_t brightness)
+{
+  if (brightness == 0) {
+      controller.off();
+    }
+}
+
 void ownFadeCallback(uint8_t brightness) {
-  onCallback(brightness);
   controller.setBrightness(brightness);
   controller.updateMode(-2);
+  checkOff(brightness);
 }
 
 void ownFlashCallback(uint8_t brightness) {
-  onCallback(brightness);
   controller.setBrightness(brightness);
   controller.updateMode(-1);
+  checkOff(brightness);
 }
 
 void staticCallback(uint8_t brightness) {
-  onCallback(brightness);
   controller.setBrightness(brightness);
   controller.updateMode(0);
+  checkOff(brightness);
 }
 
 void blinkCallback(uint8_t brightness) {
-  onCallback(brightness);
   controller.setBrightness(brightness);
   controller.updateMode(1);
+  onCallback(brightness);
 }
 
 void breathCallback(uint8_t brightness) {
-  onCallback(brightness);
   controller.setBrightness(brightness);
   controller.updateMode(2);
+  onCallback(brightness);
 }
 
 void colorWipeCallback(uint8_t brightness) {

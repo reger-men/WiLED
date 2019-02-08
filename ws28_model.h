@@ -75,9 +75,12 @@ class WS28_Model : public Model {
     void on()
     {
       unsigned long hex = this->strip->getColor() == 0 ?  0x007BFF : this->strip->getColor();
-      this->strip->setColor(hex);
-      this->strip->setMode(FX_MODE_STATIC);
-      if (!this->strip->isRunning()) this->strip->start();
+      
+      if (!this->strip->isRunning()){
+        this->strip->setColor(hex);
+        this->strip->setMode(FX_MODE_STATIC);
+        this->strip->start();
+      }
     }
 
     void off()

@@ -99,6 +99,7 @@ class Controller {
 
     void off()
     {
+      printf(".....................................OFF....................................:\n");
       this->updateStateMode(OFF);
       this->model->off();
     }

@@ -11,11 +11,9 @@
 #include <WebSocketsServer.h>
 #include <FS.h>                                                 // Include the SPIFFS library
 
+
+
 using namespace std::placeholders;
-
-
-
-
 class WebServer {
   public:
     WebServer(Controller &c) : controller(c), server(80)
@@ -133,8 +131,11 @@ class WebServer {
                );
 
       server.onNotFound([this]() {                              // If the client requests any URI
-        if (!handleFileRead(server.uri()))                      // send it if it exists
-          server.send(404, "text/plain", "404: Not Found");     // otherwise, respond with a 404 (Not Found) error
+        if (!espalexa.handleAlexaApiCall(server.uri(),server.arg(0))){                      // Check if is an Alexa control request
+          if (!handleFileRead(server.uri())){ 
+            server.send(404, "text/plain", "404: Not Found");     // otherwise, respond with a 404 (Not Found) error
+          }
+        }
       });
 
       server.begin();                                           // start the HTTP server
@@ -150,7 +151,7 @@ class WebServer {
     }
 
     // Start handleClient
-    void serverListener()
+    void serverListener()                                       // Omit this line since it will be called in espalexa.loop()
     {
       server.handleClient();
     }
@@ -213,8 +214,9 @@ class WebServer {
   private:
     Controller &controller;
     File fsUploadFile;                                          // A File object to temporarily store the received file
-    ESP8266WebServer server;
     WebSocketsServer webSocket = WebSocketsServer(81);          // Create a websocket server on port 81
     ESP8266HTTPUpdateServer httpUpdater;
 
+  public:
+    ESP8266WebServer server;
 };
