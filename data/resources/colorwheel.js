@@ -59,6 +59,8 @@
     this.$ = {};
 	this.$.wheel = this.container.append('svg').attr({
       'class': this.options.baseClassName,
+	  'id': this.options.baseClassName,
+	  'touch-action': 'manipulation',
       width: diameter,
       height: diameter,
       viewBox: [

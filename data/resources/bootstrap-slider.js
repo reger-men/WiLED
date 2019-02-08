@@ -1752,8 +1752,12 @@ var windowIsDefined = (typeof window === "undefined" ? "undefined" : _typeof(win
 				}
 				var val = this._calculateValue(true);
 
-				this.setValue(val, false, true);
-				this._trigger('slideStop', val);
+				if (!isNaN(val)) {
+					this.setValue(val, false, true);
+					this._trigger('slideStop', val);
+				}else{
+					this._trigger('slideStop', this.getValue());
+				}
 
 				// No longer need 'dragged' after mouse up
 				this._state.dragged = null;
