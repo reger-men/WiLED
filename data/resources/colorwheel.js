@@ -34,7 +34,7 @@
       defaultSlice : 45,
       initRoot     : 'red',
       initMode     : ColorWheel.modes.ANALOGOUS,
-      baseClassName: 'colorwheel manipulation',
+      baseClassName: 'colorwheel',
     };
 
     // Merge default options with options param. (Similar to jQuery.extend)
