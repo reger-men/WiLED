@@ -26,7 +26,6 @@ class Controller {
     void setSpeed(int sec)
     {
       this->model->updateSpeed(sec);
-
     }
 
     void setBrightness(uint8_t brt)
@@ -85,7 +84,7 @@ class Controller {
       }
       this->model->updateSpeed();
     }
-
+    
     void run()
     {
       this->model->applyQueue(s_mode, sw_mode);
@@ -93,6 +92,7 @@ class Controller {
 
     void on()
     {
+      printf(".....................................On....................................:\n");
       this->updateStateMode(ON);
       this->model->on();
     }

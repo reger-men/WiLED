@@ -74,6 +74,11 @@ class Model {
       }
     }
 
+    int getSpeed()
+    {
+      return this->delay_;
+    }
+
     int getNextColor(int prev_queue, int prev, int next) {
       float ret = 0;
 

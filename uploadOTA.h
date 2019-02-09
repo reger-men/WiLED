@@ -63,8 +63,8 @@ class UploadOTA {
     IPAddress gw_ = IPAddress(192,168,2,254);   
     IPAddress sn_ = IPAddress(255,255,255,0); 
     
-    const char* SSID_      = "SSID_";
-    const char* PASSWORD_  = "PASSWORD_";
+    const char* SSID_      = "SSID";
+    const char* PASSWORD_  = "PASSWORD";
 
   private:
 
