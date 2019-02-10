@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi" />
     <meta name="description" content="ESP LED Controller Web Interface">
     <meta name="author" content="">
-    <link rel="icon" href="../../../../favicon.ico">
+    <link rel="icon" href="favicon.ico">
 
     <title>WiLED</title>
 
@@ -17,7 +17,7 @@
 	
 	<!-- Color Picker -->
 	<link rel="stylesheet" href="//necolas.github.io/normalize.css/3.0.2/normalize.css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/reger-men/WiLED@latest/data/resources/wheel.css">
+	<link rel="stylesheet" href="resources/wheel.css">
 	
 	<!-- Speed Slider -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/reger-men/WiLED@0.0.1.0/data/resources/bootstrap-slider.css">
@@ -50,7 +50,6 @@
   </head>
 
   <body class="text-center">
-
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
       <header class="masthead mb-auto">
         <div class="inner">
@@ -151,9 +150,9 @@
 	<!-- Color Picker -->
 	<script src="https://cdn.jsdelivr.net/gh/reger-men/WiLED@0.0.1.0/data/resources/bower_components/d3/d3.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/gh/reger-men/WiLED@0.0.1.0/data/resources/bower_components/tinycolor/tinycolor.js"></script>
-	<script src="https://cdn.jsdelivr.net/gh/reger-men/WiLED@0.0.1.0/data/resources/colorwheel.js"></script>
+	<script src="resources/colorwheel.js"></script>
 	<script src="https://cdn.jsdelivr.net/gh/reger-men/WiLED@0.0.1.0/data/resources/colorwheel.mode.js"></script>
-	<script src="https://cdn.jsdelivr.net/gh/reger-men/WiLED@0.0.1.0/data/resources/colorwheel.theme.js"></script>
+	<script src="resources/colorwheel.theme.js"></script>
 	<script src="https://cdn.jsdelivr.net/gh/reger-men/WiLED@0.0.1.0/data/resources/colorwheel.gradient.js"></script>
 	
 	<!-- Speed Slider -->	
@@ -172,7 +171,7 @@
 	//////////////////////////////////////////////////////////WEBSOCKET////////////////////////////////////////////////////////////////////////////
 	
 	//WebSocket setup connection
-	var host = window.location.hostname;
+	/*var host = window.location.hostname;
 	var ws_url = 'ws://' + host + ':81';
 	var connection = new WebSocket(ws_url, ['arduino']);
 	
@@ -187,7 +186,7 @@
 	};
 	connection.onclose = function () {
 	  console.log('WebSocket connection closed');
-	};
+	};*/
 	
 	//////////////////////////////////////////////////////////POWER ON/OFF////////////////////////////////////////////////////////////////////////////
 	

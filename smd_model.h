@@ -27,7 +27,7 @@ class SMD_Model : public Model {
       analogWrite(kBluePin,  rgb.b);
 
       this->prev_color_ = rgb;
-      printf("Set RGB: %i, %i, %i\n", rgb.r, rgb.g, rgb.b);
+      //printf("Set RGB: %i, %i, %i\n", rgb.r, rgb.g, rgb.b);
     }
 
     void on()

@@ -51,7 +51,7 @@ class WS28_Model : public Model {
         this->strip->setColor(rgb.r, rgb.g, rgb.b);
         this->strip->trigger();
         this->prev_color_ = rgb;
-        printf("Set RGB: %i, %i, %i\n", rgb.r, rgb.g, rgb.b);
+        //printf("Set RGB: %i, %i, %i\n", rgb.r, rgb.g, rgb.b);
       }
     }
 
@@ -68,7 +68,7 @@ class WS28_Model : public Model {
       this->strip->trigger();
       this->prev_mode_ = m;
 
-      printf("Set mode to: %i\n", this->strip->getMode());
+      //printf("Set mode to: %i\n", this->strip->getMode());
 
     }
 
@@ -129,7 +129,7 @@ class WS28_Model : public Model {
     }
   private:
     static const uint8_t kLEDPin      = 14;                     // Used for WS28 strip as output pin
-    static const uint16_t kLEDCount   = 30;                     // Used for WS28 strip as LED Count
+    static const uint16_t kLEDCount   = 300;                     // Used for WS28 strip as LED Count
     uint8_t mode_                     = 0;
     uint8_t prev_mode_                = 255;                    // Store the previous mode
 

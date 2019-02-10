@@ -16,8 +16,7 @@ body {
   display: block;
   width: 320px;
   height: 320px;
-  margin: 0px auto 0px;
-  touch-action: none;}
+  margin: 0px auto 0px;}
 
   
 .colorwheel-marker:first-child circle {

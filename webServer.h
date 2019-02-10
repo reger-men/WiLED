@@ -18,9 +18,10 @@ class WebServer {
   public:
     WebServer(Controller &c) : controller(c), server(80)
     {
+      startServer();                                            // Start a HTTP server with a file read handler and an upload handler
       startSPIFFS();                                            // Start the SPIFFS and list all contents
       startWebSocket();                                         // Start a WebSocket server
-      startServer();                                            // Start a HTTP server with a file read handler and an upload handler
+      
       httpUpdater.setup(&server, "/update");                    // Initialize http updater server
     }
 
@@ -97,7 +98,7 @@ class WebServer {
         if (fsUploadFile) {                                     // If the file was successfully created
           fsUploadFile.close();                                 // Close the file again
           printf("handleFileUpload Size: %d\n", upload.totalSize);
-          server.sendHeader("Location", "/success.html");       // Redirect the client to the success page
+          server.sendHeader("Location", "/success.htm");       // Redirect the client to the success page
           server.send(303);
         } else {
           server.send(500, "text/plain", "500: couldn't create file");
@@ -124,7 +125,7 @@ class WebServer {
     // Start a HTTP server with a file read handler and an upload handler
     void startServer() {
       //Initialize Webserver
-      printf("server starting...\n");
+      printf("Server starting...\n");
       server.on("/upload", HTTP_POST, [this]() {                // if the client posts to the upload page
         server.send(200);                                       // Send status 200 (OK) to tell the client we are ready to receive
       }, std::bind(&WebServer::handleFileUpload, this)          // Receive and save the file
@@ -144,7 +145,7 @@ class WebServer {
 
     // Start a WebSocket server
     void startWebSocket() {
-      printf("webSocket starting...\n");
+      printf("WebSocket starting...\n");
       webSocket.begin();                                        // Start the websocket server
       webSocket.onEvent(std::bind(&WebServer::webSocketEvent, this, _1, _2, _3, _4));          // Call webSocketEvent if there's an incomming websocket message
       printf("WebSocket server started.\n");

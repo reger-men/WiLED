@@ -45,7 +45,7 @@ class Controller {
         pin_color.g = rgbs[(i * 3) + 1];
         pin_color.b = rgbs[(i * 3) + 2];
 
-        printf("r: %d , g: %d, b: %d\n", rgbs[(i * 3) + 0], rgbs[(i * 3) + 1], rgbs[(i * 3) + 2]);
+        //printf("r: %d , g: %d, b: %d\n", rgbs[(i * 3) + 0], rgbs[(i * 3) + 1], rgbs[(i * 3) + 2]);
         this->insertRGB(pin_color);
       }
     }
@@ -92,14 +92,14 @@ class Controller {
 
     void on()
     {
-      printf(".....................................On....................................:\n");
+      //printf(".....................................On....................................:\n");
       this->updateStateMode(ON);
       this->model->on();
     }
 
     void off()
     {
-      printf(".....................................OFF....................................:\n");
+      //printf(".....................................OFF....................................:\n");
       this->updateStateMode(OFF);
       this->model->off();
     }

@@ -59,8 +59,6 @@
     this.$ = {};
 	this.$.wheel = this.container.append('svg').attr({
       'class': this.options.baseClassName,
-	  'id': this.options.baseClassName,
-	  'touch-action': 'manipulation',
       width: diameter,
       height: diameter,
       viewBox: [
@@ -84,10 +82,14 @@
       height: diameter,
       'xlink:href': 'https://cdn.jsdelivr.net/gh/reger-men/WiLED@master/data/resources/wheel.png'
     });
-
+	
     this.$.markerTrails = this.$.wheel.append('g');
-    this.$.markers = this.$.wheel.append('g');
+    this.$.markers = this.$.wheel.append('g').attr({
+		'id'	   : this.options.baseClassName,
+		'touch-action': 'manipulation'
+	});	
 
+		  
 	
     // --- Events ---
 
@@ -179,7 +181,8 @@
       'stroke': 'white',
       'stroke-opacity': 0.75,
       'stroke-width': 3,
-      'stroke-dasharray': '10, 6'
+	  'stroke-linecap': 'butt',
+      'stroke-dasharray': 0
     });
 
     markerTrails.exit().remove();
