@@ -174,6 +174,6 @@ void adddevices()
   espalexa.addDevice("Light 10",  chaseRainbowCallback);
   espalexa.addDevice("Light 11",  chaseBlackoutRainbowCallback);
   espalexa.addDevice("Light 13",  runningRandomCallback);
-  espalexa.addDevice("Light 13",  larsonScannerCallback);
-  espalexa.addDevice("Light 14",  fireworksRandomCallback);
+  espalexa.addDevice("Light 14",  larsonScannerCallback);
+  espalexa.addDevice("Light 15",  fireworksRandomCallback);
 }

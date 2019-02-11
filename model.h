@@ -57,6 +57,7 @@ class Model {
     {
       RGB tmp = {0, 0, 0};
       tmp = this->pullFromQueue();                              //Get the first item from the queue
+      this->prev_queue_color_ = tmp;                            // Set the Current Color to prev
       this->setRGB(tmp);                                        //Set the RGB Value
       this->shiftQueue();                                       //Shift the queue to update the items order
     }
@@ -67,7 +68,7 @@ class Model {
       if (s_mode == DYNAMIC && sw_mode == FADE) {
         //Compute the transition period
         this->switchColorDelay_ = (sec * TRANSITION_PART);
-        this->transitionSteps_ = (int)((this->switchColorDelay_ * 2) / this->TRANSITION_DELAY);
+        this->transitionSteps_ = (int)((this->switchColorDelay_ * 2) / (this->TRANSITION_DELAY + 10)); // 10 is the estimated processing time of the fade procedure
         this->speed_ = sec - this->switchColorDelay_;
       } else {
         this->speed_ = sec;
@@ -120,16 +121,15 @@ class Model {
         case SETCOLOR:
           this->setNextRGB();                                   // Set the next color from the queue
 
-          prev_queue_color_ = tmp;                              // Set the Current Color to prev
           this->current_step_ = 0;
           delay(this->speed_);
           break;
         case TRANSITION:
 
           rgb = this->pullFromQueue();
-          tmp.r = getNextColor(prev_queue_color_.r, prev_color_.r, rgb.r);
-          tmp.g = getNextColor(prev_queue_color_.g, prev_color_.g, rgb.g);
-          tmp.b = getNextColor(prev_queue_color_.b, prev_color_.b, rgb.b);
+          tmp.r = getNextColor(this->prev_queue_color_.r, this->prev_color_.r, rgb.r);
+          tmp.g = getNextColor(this->prev_queue_color_.g, this->prev_color_.g, rgb.g);
+          tmp.b = getNextColor(this->prev_queue_color_.b, this->prev_color_.b, rgb.b);
 
           this->setRGB(tmp);                                    // Set the RGB Value
 
@@ -195,7 +195,7 @@ class Model {
     Strip_Type stripModel;                                      // Store the strip model
 
     unsigned long switchColorDelay_   = 0;						          // Set transition duration
-    float TRANSITION_PART             = 0.4f;                   // Set the transition part as 20 percent
+    float TRANSITION_PART             = 0.5f;                   // Set the transition part as 20 percent
     uint8_t TRANSITION_DELAY          = 20;                     // Set the transition time (ms)
     int transitionSteps_              = 0;                      // Steps number for one transition
     int speed_                        = 0;                      // Steps the speed value for one color
