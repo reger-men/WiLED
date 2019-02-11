@@ -101,6 +101,7 @@ class WebServer {
           server.sendHeader("Location", "/success.htm");       // Redirect the client to the success page
           server.send(303);
         } else {
+          Update.printError(Serial);
           server.send(500, "text/plain", "500: couldn't create file");
         }
       }
@@ -122,16 +123,25 @@ class WebServer {
       }
     }
 
+    void uploadData()
+    {
+      printf("upload data...");
+      server.send(200, "text/html", this->upload_html); 
+    }
+    
     // Start a HTTP server with a file read handler and an upload handler
     void startServer() {
       //Initialize Webserver
       printf("Server starting...\n");
-      server.on("/upload", HTTP_POST, [this]() {                // if the client posts to the upload page
-        server.send(200);                                       // Send status 200 (OK) to tell the client we are ready to receive
-      }, std::bind(&WebServer::handleFileUpload, this)          // Receive and save the file
-               );
-
-      server.onNotFound([this]() {                              // If the client requests any URI
+      
+      server.on("/update", HTTP_GET, std::bind(&WebServer::uploadData, this)); // if the client requests the upload page
+      server.on("/update", HTTP_POST, [this]() {                  // if the client posts to the upload page
+        server.send(200);                                         // Send status 200 (OK) to tell the client we are ready to receive
+        }, std::bind(&WebServer::handleFileUpload, this)          // Receive and save the file
+      );
+      
+      
+      server.onNotFound([this]() {                                // If the client requests any URI
         if (!espalexa.handleAlexaApiCall(server.uri(),server.arg(0))){                      // Check if is an Alexa control request
           if (!handleFileRead(server.uri())){ 
             server.send(404, "text/plain", "404: Not Found");     // otherwise, respond with a 404 (Not Found) error
@@ -139,7 +149,7 @@ class WebServer {
         }
       });
 
-      server.begin();                                           // start the HTTP server
+      server.begin();                                             // start the HTTP server
       printf("HTTP server started.\n");
     }
 
@@ -211,13 +221,13 @@ class WebServer {
       }
     }
 
-
+    
   private:
     Controller &controller;
     File fsUploadFile;                                          // A File object to temporarily store the received file
     WebSocketsServer webSocket = WebSocketsServer(81);          // Create a websocket server on port 81
     ESP8266HTTPUpdateServer httpUpdater;
-
+    String upload_html = "<form method=\"post\" enctype=\"multipart/form-data\"> <input type=\"file\" name=\"name\"> <input class=\"button\" type=\"submit\" value=\"Upload\"> </form>\n";
   public:
     ESP8266WebServer server;
 };
