@@ -4,7 +4,7 @@ WiLED is an Open Source project to control various types of LED strips with ESP8
 ## How to install ##
 **IMPORTANT:** Download the last release version (ZIP file) from [HERE](https://github.com/reger-men/WiLED/releases) and upload the binary file or compile the source code.
 
-[![WiLED on youtube](https://img.youtube.com/vi/cLCZFH-E9To/0.jpg)](https://www.youtube.com/watch?v=cLCZFH-E9To)
+[![WiLED on youtube](https://raw.githubusercontent.com/reger-men/WiLED/master/web_src/view.PNG)](https://www.youtube.com/watch?v=cLCZFH-E9To)
 
 Click on the image above to watch the video.
 
