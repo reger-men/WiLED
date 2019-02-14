@@ -8,7 +8,7 @@ WiLED is an Open Source project to control various types of LED strips with ESP8
 
 Click on the image above to watch the video.
 
-## features ##
+## Features ##
 User ...
 * ... doesn't need to install any app to controlle the LED strip
 * ... can controlle the LED strip via Webinterface or via Alexa
