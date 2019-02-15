@@ -8,6 +8,10 @@ WiLED is an Open Source project to control various types of LED strips with ESP8
 
 Click on the image above to watch the video.
 
+* Install Arduino IDE
+ * Install driver for ESP8266 [https://github.com/esp8266/Arduino](https://github.com/esp8266/Arduino)
+ * Install Adafruit_NeoPixel, Espalexa, WebSockets, WifiManager and WS2812FX Libraries
+
 ## Features ##
 User ...
 * ... doesn't need to install any app to controlle the LED strip
