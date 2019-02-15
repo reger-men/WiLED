@@ -10,7 +10,9 @@ Click on the image above to watch the video.
 
 * Install Arduino IDE
  * Install driver for ESP8266 [https://github.com/esp8266/Arduino](https://github.com/esp8266/Arduino)
+ * Install plugin for ESP8266 Sketch Data Upload [https://github.com/esp8266/arduino-esp8266fs-plugin](https://github.com/esp8266/arduino-esp8266fs-plugin)
  * Install Adafruit_NeoPixel, Espalexa, WebSockets, WifiManager and WS2812FX Libraries
+  
 
 ## Features ##
 User ...
