@@ -35,7 +35,7 @@ Make sure that you set only one to ``` 1``` and the other one to ``` 0```
 If you don't want to use Alexa set ``` #define USE_ALEXA   0 ```
 
 ## Wiring ## 
-![WiLED Logo](https://raw.githubusercontent.com/reger-men/WiLED/master/web_src/wiring.PNG) 
+![Wiring](https://raw.githubusercontent.com/reger-men/WiLED/master/web_src/wiring.png) 
 
 ## Things you need (Shopping Cart) ## 
 [ESP82666](https://www.amazon.com/AZDelivery-Nodemcu-Module-ESP8266-Development/dp/B07F8759RC/ref=sr_1_2?keywords=esp8266&qid=1549978307&s=gateway&sr=8-2)
