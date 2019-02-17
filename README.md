@@ -1,4 +1,4 @@
-# ![WiLED Logo](https://raw.githubusercontent.com/reger-men/WiLED/master/web_src/logo.PNG) 
+# ![WiLED Logo](https://raw.githubusercontent.com/reger-men/WiLED/master/web_src/logo.png) 
 WiLED is an Open Source project to control various types of LED strips with ESP8266. 5050 SMD and WS28xx LED strips are supported.
 
 ## How to install ##
