@@ -2,12 +2,13 @@
 WiLED is an Open Source project to control various types of LED strips with ESP8266. 5050 SMD and WS28xx LED strips are supported.
 
 ## How to install ##
-**IMPORTANT:** Download the last release version (ZIP file) from [HERE](https://github.com/reger-men/WiLED/releases) and upload the binary file or compile the source code.
+**IMPORTANT:** Download the latest release version (ZIP file) from [HERE](https://github.com/reger-men/WiLED/releases) and upload the binary file or compile the source code.
 
 [![WiLED on youtube](https://raw.githubusercontent.com/reger-men/WiLED/master/web_src/view.PNG)](https://www.youtube.com/watch?v=cLCZFH-E9To)
 
 Click on the image above to watch the video.
 
+## Compile from Source Code ## 
 * Install Arduino IDE
  * Install driver for ESP8266 [https://github.com/esp8266/Arduino](https://github.com/esp8266/Arduino)
  * Install plugin for ESP8266 Sketch Data Upload [https://github.com/esp8266/arduino-esp8266fs-plugin](https://github.com/esp8266/arduino-esp8266fs-plugin)
