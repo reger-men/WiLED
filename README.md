@@ -13,6 +13,9 @@ Click on the image above to watch the video.
  * Install plugin for ESP8266 Sketch Data Upload [https://github.com/esp8266/arduino-esp8266fs-plugin](https://github.com/esp8266/arduino-esp8266fs-plugin)
  * Install [Adafruit_NeoPixel](https://github.com/adafruit/Adafruit_NeoPixel), [Espalexa](https://github.com/Aircoookie/Espalexa), [WebSockets](https://github.com/Links2004/arduinoWebSockets), [WifiManager](https://github.com/tzapu/WiFiManager) and [WS2812FX](https://github.com/kitesurfer1404/WS2812FX) Libraries
   
+## Upload the pre-compiled  binary ##
+Download the latest release version [**WiLED.ino.nodemcu.bin**](https://github.com/reger-men/WiLED/releases) and use [ESPTool](https://github.com/espressif/esptool) or [ESPFlashDownloadTool](https://www.espressif.com/en/support/download/other-tools) to upload the binary to ESP8266.
+
 
 ## Features ##
 User ...
